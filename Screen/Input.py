@@ -4,12 +4,12 @@ class Input():
 
 
     def __init__(self) -> None:
-        """Class to access all keyboard and mouse input needed."""
+        """Class to access and handle all keyboard and mouse input events."""
         pass
 
 
-    def key_pressed(self, *keys:int) -> bool:
-        """Checks if the given keys are currently active and returns True if so."""
+    def get_key(self, *keys:int) -> bool:
+        """Checks if any of the given keys are currently active."""
         for id in keys:
             if pygame.key.get_pressed()[id]:
                 return True

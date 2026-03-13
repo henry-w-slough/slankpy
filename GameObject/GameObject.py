@@ -42,7 +42,7 @@ class GameObject(pygame.sprite.Sprite):
 
 
     def set_sprite(self, animation_name:str, sprite_index:int) -> None:
-        """Changes the sprite to the correlating animation frame."""
+        """Sets the sprite of this GameObject to the given sprite and changes it's size to fit the sprite."""
         #getting sprite
         sprite = self.sprite.get_sprite(animation_name, sprite_index)
         #updating this image

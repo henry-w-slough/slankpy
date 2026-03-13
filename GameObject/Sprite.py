@@ -39,7 +39,7 @@ class Sprite():
             return pygame.Surface((32, 32))
 
 
-    def load_sprites(self, src:str, name:str, sprite_rows:int, sprite_columns:int) -> None:
+    def add_sprites(self, src:str, name:str, sprite_rows:int, sprite_columns:int) -> None:
         """Adds the sprites from the given image to an animation of the given name."""
         
         #attempting image loading
@@ -57,7 +57,8 @@ class Sprite():
         sprite_height = spritesheet.get_height() / sprite_columns
 
         #used to track the total number of sprites iterated over
-        sprite_num = 0
+        #starts at -1 so the real index starts at 0
+        sprite_num = -1
 
         #going through each sprite
         for sr in range(sprite_rows):
@@ -66,7 +67,7 @@ class Sprite():
                 #calculating the rect of the new sprite within the context of the spritesheet
                 sprite_rect = pygame.Rect(sr*sprite_width, sc*sprite_height, sprite_width, sprite_height)
                 #cutting the new sprite out
-                new_sprite = spritesheet.subsurface(sprite_rect)
+                new_sprite = pygame.transform.scale(spritesheet.subsurface(sprite_rect), (self.width, self.height))
                 #adding the new sprite at the index of sprite_num
                 self.animations[name][sprite_num] = new_sprite
 
