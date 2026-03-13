@@ -1,11 +1,11 @@
-from pygame.sprite import Group
+import pygame
 
 from GameObject.GameObject import GameObject
 
 class PhysicsObject(GameObject):
 
 
-    def __init__(self, width: int, height: int, *groups: Group) -> None:
+    def __init__(self, width: int, height: int, *groups:pygame.sprite.Group) -> None:
         """Inherits from GameObject and holds all the same properties. Acts as a """
         super().__init__(width, height, *groups)
 

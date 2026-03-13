@@ -1,5 +1,5 @@
 import pygame
-from GameObject.Sprite import Sprite
+from . import Sprite
 
 class GameObject(pygame.sprite.Sprite):
 
@@ -11,7 +11,7 @@ class GameObject(pygame.sprite.Sprite):
         self.image = pygame.Surface((width, height))
         self.rect = self.image.get_rect()
 
-        self.sprite = Sprite(width, height)
+        self.sprite = Sprite.Sprite(width, height)
 
 
     def set_position(self, x:int, y:int) -> None:

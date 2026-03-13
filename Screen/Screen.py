@@ -1,5 +1,5 @@
 import pygame
-from Screen.Input import Input
+from . import Input
 
 class Screen():
     
@@ -12,7 +12,7 @@ class Screen():
 
         self.clock = pygame.time.Clock()
 
-        self.input = Input()
+        self.input = Input.Input()
 
         self.layers = {
 
