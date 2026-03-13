@@ -5,7 +5,7 @@ class GameObject(pygame.sprite.Sprite):
 
 
     def __init__(self, width:int, height:int, *groups:pygame.sprite.Group) -> None:
-        """Represents any object thats in a game. Holds a Rect and Sprite for customizations."""
+        """Represents any object thats in a game. Holds a Rect and Sprite for use."""
         super().__init__(*groups)
 
         self.image = pygame.Surface((width, height))

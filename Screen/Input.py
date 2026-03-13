@@ -4,7 +4,7 @@ class Input():
 
 
     def __init__(self) -> None:
-        """All keyboard and mouse input needed."""
+        """Class to access all keyboard and mouse input needed."""
         pass
 
 

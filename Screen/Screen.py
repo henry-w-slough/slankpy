@@ -1,8 +1,8 @@
 import pygame
-from . import Input
 
 class Screen():
     
+
     def __init__(self, width:int, height:int) -> None:
 
         self.screen = pygame.display.set_mode((width, height))
@@ -11,8 +11,6 @@ class Screen():
         self.height = height
 
         self.clock = pygame.time.Clock()
-
-        self.input = Input.Input()
 
         self.layers = {
 
@@ -28,8 +26,8 @@ class Screen():
 
 
     def update(self) -> None:
-        """Refreshes the screen, updates and draws all layers added, and updates the screen."""
-        self.screen.fill((255, 255, 255))
+        """Refreshes the screen, updates and draws all layers added."""
+        self.screen.fill((0, 0, 0))
 
         for layer in self.layers.values():
             layer.update()
