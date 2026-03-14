@@ -1,0 +1,34 @@
+import pygame
+
+from ..GameObject import GameObject
+
+class Camera:
+
+
+    def __init__(self, target:GameObject.GameObject) -> None:
+
+        self.target = target
+
+        self.fov_x = 300
+        self.fov_y = 300
+
+    
+    def set_fov(self, x:int, y:int) -> None:
+        """Changes the distance at which GameObjects are drawn."""
+        self.fov_x = x
+        self.fov_y = y
+
+
+    def get_visible_layer(self, layer:pygame.sprite.Group) -> pygame.sprite.Group:
+        """Returns a group of all sprites that are visible on the Screen. Compares the position of this object's target and the FOV to check for visibility."""
+
+        visible = pygame.sprite.Group()
+        
+        #iterating through the given layer
+        for s in layer:
+            #comparing the position to the fov of the Camera
+            if s.rect.x > self.target.rect.x-self.fov_x and s.rect.x < self.target.rect.x+self.fov_x:
+                if s.rect.y > self.target.rect.y - self.fov_y and s.rect.y < self.target.rect.y + self.fov_y:
+                    visible.add(s)
+            
+        return visible

@@ -1,6 +1,6 @@
 import pygame
 
-from .import GameObject
+from . import GameObject
 
 class PhysicsObject(GameObject.GameObject):
 
@@ -18,21 +18,26 @@ class PhysicsObject(GameObject.GameObject):
     def move_and_slide(self) -> None:
         """Updates all physics-based calculations, required for object physics simulation."""
 
-        #updating position based on velocity
-        self.add_position(self.vel_x, self.vel_y)
+        self.rect.x += round(self.vel_x)
+        self.rect.y += round(self.vel_y)
 
-        if abs(self.vel_x) < self.friction:
-            #velocity will never equal 0, so it has to be given a nudge
+        if abs(self.vel_x) > 0.1:
+            self.vel_x -= self.vel_x * self.friction
+        else:
             self.vel_x = 0
-        else:
-            #updating velocity based on friction and time
-            self.vel_x *= self.friction
 
-        #applying same math to y as x velocity
-        if abs(self.vel_y) < self.friction:
-            self.vel_y = 0
+        if abs(self.vel_y) > 0.1:
+            self.vel_y -= self.vel_y * self.friction
         else:
-            self.vel_y *= self.friction
+            self.vel_y = 0
+
+
+    def set_friction(self, friction:float) -> None:
+        """Changes the friction of this PhysicsObject. 
+            Friction is used as a multiplier of velocity, so values between 0 and 1 should be used for proper simulation, 
+            0 being the least drag and 1 being the most, also values above or below can also be used (with caution)
+        """
+        self.friction = friction
 
 
     def apply_force(self, x:int, y:int) -> None:

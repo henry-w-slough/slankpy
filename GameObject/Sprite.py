@@ -30,13 +30,14 @@ class Sprite():
         #checking if the animation exists
         if animation_name not in self.animations:
             print("ERROR: Sprite: get_sprite: Given animation name does not exist.")
+        else:
+            #excepting an invalid index, returns a placeholder surface thats black
+            try:
+                return self.animations[animation_name][sprite_index]
+            except KeyError:
+                print(f"ERROR: Sprite: get_sprite: Given sprite index does not exist.")
 
-        #excepting an invalid index, returns a placeholder surface thats black
-        try:
-            return self.animations[animation_name][sprite_index]
-        except KeyError:
-            print(f"ERROR: Sprite: get_sprite: Given sprite index does not exist.")
-            return pygame.Surface((32, 32))
+        return pygame.Surface((self.width, self.height))
 
 
     def add_sprites(self, src:str, name:str, sprite_rows:int, sprite_columns:int) -> None:
