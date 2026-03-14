@@ -16,6 +16,8 @@ class Screen():
 
         }
 
+        self.fill_color = (0, 0, 0)
+
 
     def is_quit(self) -> bool:
         """Returns a bool of whether or not the user has quit the game."""
@@ -27,7 +29,7 @@ class Screen():
 
     def update(self) -> None:
         """Refreshes the screen, updates and draws all layers added."""
-        self.screen.fill((0, 0, 0))
+        self.screen.fill(self.fill_color)
 
         for layer in self.layers.values():
             layer.update()
@@ -52,3 +54,8 @@ class Screen():
             return
         print("ERROR: Screen: remove_layer: Invalid layer_key given for removal.")
         return
+    
+
+    def set_fill_color(self, color:tuple[int, int, int]) -> None:
+        """Sets the color that clears the screen before layers are drawn on."""
+        self.fill_color = color
