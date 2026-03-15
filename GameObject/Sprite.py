@@ -57,20 +57,31 @@ class Sprite():
         sprite_width = spritesheet.get_width() / sprite_rows
         sprite_height = spritesheet.get_height() / sprite_columns
 
-        #used to track the total number of sprites iterated over
-        #starts at -1 so the real index starts at 0
-        sprite_num = -1
 
+        #tracks total number of sprites iterated over
+        sprite_num = 0
 
+        #tracks the current column and row of iteration
+        column = 0
+        row = 0
 
-        for row in range(sprite_rows):
+        while column != sprite_columns:
 
             #calculating the rect of the new sprite within the context of the spritesheet
-            sprite_rect = pygame.Rect(row*sprite_width, 0*sprite_height, sprite_width, sprite_height)
+            sprite_rect = pygame.Rect(row*sprite_width, column*sprite_height, sprite_width, sprite_height)
             #cutting the new sprite out
             new_sprite = pygame.transform.scale(spritesheet.subsurface(sprite_rect), (self.width, self.height))
             #adding the new sprite at the index of sprite_num
             self.animations[name][sprite_num] = new_sprite
+
+            sprite_num += 1
+
+            #adding 1 to row, and when the row end is met,
+            #we go to the beginning of the next row
+            row += 1
+            if row == sprite_rows:
+                column += 1
+                row = 0
 
 
         

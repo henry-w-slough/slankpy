@@ -19,7 +19,7 @@ class Screen():
         self.fill_color = (0, 0, 0)
 
 
-    def is_quit(self) -> bool:
+    def has_quit(self) -> bool:
         """Returns a bool of whether or not the user has quit the game."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
