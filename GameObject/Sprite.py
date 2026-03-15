@@ -29,13 +29,13 @@ class Sprite():
 
         #checking if the animation exists
         if animation_name not in self.animations:
-            print("ERROR: Sprite: get_sprite: Given animation name does not exist.")
+            print(f"ERROR: Sprite: get_sprite: Given animation name {animation_name} does not exist.")
         else:
             #excepting an invalid index, returns a placeholder surface thats black
             try:
                 return self.animations[animation_name][sprite_index]
             except KeyError:
-                print(f"ERROR: Sprite: get_sprite: Given sprite index does not exist.")
+                print(f"ERROR: Sprite: get_sprite: Given sprite index {sprite_index} does not exist.")
 
         return pygame.Surface((self.width, self.height))
 
@@ -61,16 +61,16 @@ class Sprite():
         #starts at -1 so the real index starts at 0
         sprite_num = -1
 
-        #going through each sprite
-        for sr in range(sprite_rows):
-            for sc in range(sprite_columns):
-                sprite_num += 1
-                #calculating the rect of the new sprite within the context of the spritesheet
-                sprite_rect = pygame.Rect(sr*sprite_width, sc*sprite_height, sprite_width, sprite_height)
-                #cutting the new sprite out
-                new_sprite = pygame.transform.scale(spritesheet.subsurface(sprite_rect), (self.width, self.height))
-                #adding the new sprite at the index of sprite_num
-                self.animations[name][sprite_num] = new_sprite
+
+
+        for row in range(sprite_rows):
+
+            #calculating the rect of the new sprite within the context of the spritesheet
+            sprite_rect = pygame.Rect(row*sprite_width, 0*sprite_height, sprite_width, sprite_height)
+            #cutting the new sprite out
+            new_sprite = pygame.transform.scale(spritesheet.subsurface(sprite_rect), (self.width, self.height))
+            #adding the new sprite at the index of sprite_num
+            self.animations[name][sprite_num] = new_sprite
 
 
         

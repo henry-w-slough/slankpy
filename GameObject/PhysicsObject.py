@@ -35,7 +35,7 @@ class PhysicsObject(GameObject.GameObject):
     def set_friction(self, friction:float) -> None:
         """Changes the friction of this PhysicsObject. 
             Friction is used as a multiplier of velocity, so values between 0 and 1 should be used for proper simulation, 
-            0 being the least drag and 1 being the most, also values above or below can also be used (with caution)
+            0 being the least drag and 1 being the most.
         """
         self.friction = friction
 

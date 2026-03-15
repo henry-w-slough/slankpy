@@ -40,7 +40,7 @@ class Screen():
     
 
     def add_layer(self, name:str) -> None:
-        """Adds the given layer to the Screen layers with a new sprite group."""
+        """Adds the given layer to the Screen layers."""
         if name in self.layers:
             print("WARNING: Screen: add_layer: Given layer_key already exists within Screen layers, overwriting existing.")
         #layers is used only for sprite groups, so one can be automatically placed
@@ -48,7 +48,7 @@ class Screen():
     
 
     def remove_layer(self, name:str) -> None:
-        """Removes the given layer from the Screen's layer dict."""
+        """Removes the given layer from the Screen."""
         if name in self.layers:
             del self.layers[name]
             return
@@ -57,5 +57,5 @@ class Screen():
     
 
     def set_fill_color(self, color:tuple[int, int, int]) -> None:
-        """Sets the color that clears the screen before layers are drawn on."""
+        """Sets the color that clears the screen before layers are drawn."""
         self.fill_color = color
