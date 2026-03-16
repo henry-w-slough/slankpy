@@ -31,6 +31,7 @@ class Screen():
 
     def update(self) -> None:
         """Refreshes the screen, updates and draws all layers added."""
+        
         self.screen.fill(self.fill_color)
 
         for layer in self.layers.values():

@@ -33,8 +33,8 @@ class Camera:
         #iterating through the given layer
         for s in layer:
             #comparing the position to the fov of the Camera
-            if s.rect.x > self.target.rect.x-self.fov_x and s.rect.x < self.target.rect.x+self.fov_x:
-                if s.rect.y > self.target.rect.y - self.fov_y and s.rect.y < self.target.rect.y + self.fov_y:
+            if s.rect.center[0] > self.target.rect.center[0]-self.fov_x and s.rect.center[0] < self.target.rect.center[0]+self.fov_x:
+                if s.rect.center[1] > self.target.rect.center[1] - self.fov_y and s.rect.center[1] < self.target.rect.center[1] + self.fov_y:
                     visible.add(s)
             
         return visible

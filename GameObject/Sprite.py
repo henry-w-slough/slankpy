@@ -19,8 +19,9 @@ class Sprite():
 
 
     def set_size(self, width:int, height:int) -> None:
-        if self.texture.get_width() != width or self.texture.get_height() != height:
-            self.texture = pygame.transform.scale(self.texture, (width, height))
+
+        self.texture = pygame.transform.scale(self.texture, (width, height))
+
         self.width = width
         self.height = height
 
@@ -31,12 +32,14 @@ class Sprite():
         if animation_name not in self.animations:
             print(f"ERROR: Sprite: get_sprite: Given animation name {animation_name} does not exist.")
         else:
-            #excepting an invalid index, returns a placeholder surface thats black
             try:
-                return self.animations[animation_name][sprite_index]
+                #returns the sprite transformed to the current size
+                return pygame.transform.scale(self.animations[animation_name][sprite_index], (self.width, self.height))
             except KeyError:
                 print(f"ERROR: Sprite: get_sprite: Given sprite index {sprite_index} does not exist.")
 
+
+        #placeholder surface
         return pygame.Surface((self.width, self.height))
 
 
@@ -70,9 +73,11 @@ class Sprite():
             #calculating the rect of the new sprite within the context of the spritesheet
             sprite_rect = pygame.Rect(row*sprite_width, column*sprite_height, sprite_width, sprite_height)
             #cutting the new sprite out
-            new_sprite = pygame.transform.scale(spritesheet.subsurface(sprite_rect), (self.width, self.height))
-            #adding the new sprite at the index of sprite_num
+            #note it's unscaled, when accessing a sprite properly, the sprite will be transformed when accessed then
+            new_sprite = spritesheet.subsurface(sprite_rect)
+
             self.animations[name][sprite_num] = new_sprite
+
 
             sprite_num += 1
 

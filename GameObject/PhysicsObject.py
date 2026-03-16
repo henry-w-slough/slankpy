@@ -1,12 +1,12 @@
 import pygame
 
 from . import GameObject
-
 class PhysicsObject(GameObject.GameObject):
 
 
     def __init__(self, width: int, height: int, *groups:pygame.sprite.Group) -> None:
-        """GameObject inherited object that moves with velocities and friction instead of direct position changes. move_and_slide() must be called for movement to function."""
+        """Any object that moves with velocities and friction instead of direct position changes. move_and_slide() must be called for movement to function.
+            Inherits from GameObject, meaning positions, size, and sprites can still be adjusted directly."""
         super().__init__(width, height, *groups)
 
         self.vel_x = 0
