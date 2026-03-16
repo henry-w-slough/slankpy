@@ -5,12 +5,18 @@ from ..GameObject import GameObject
 class Camera:
 
 
-    def __init__(self, target:GameObject.GameObject) -> None:
-
-        self.target = target
+    def __init__(self) -> None:
+        
+        #target is by default not defined, but can be set through setter function
+        self.target:GameObject.GameObject
 
         self.fov_x = 300
         self.fov_y = 300
+
+
+    def set_target(self, target:GameObject.GameObject) -> None:
+        """Sets the GameObject which this camera will follow."""
+        self.target = target
 
     
     def set_fov(self, x:int, y:int) -> None:

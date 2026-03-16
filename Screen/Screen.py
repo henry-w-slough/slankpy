@@ -1,5 +1,7 @@
 import pygame
 
+from . import Camera
+
 class Screen():
     
 
