@@ -1,12 +1,12 @@
 import pygame
 
-from ..GameObject import GameObject
+from ..Objects import GameObject
 
 class Camera:
 
 
     def __init__(self) -> None:
-        
+        """Handles all world to viewport calculations and translations. Holds a changeable target that acts as the object the Camera follows."""
         #target is by default not defined, but can be set through setter function
         self.target:GameObject.GameObject
 
