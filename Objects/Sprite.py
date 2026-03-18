@@ -26,21 +26,23 @@ class Sprite():
         self.height = height
 
 
-    def get_sprite(self, animation_name:str, sprite_index:int) -> pygame.Surface:
-
+    def set_sprite(self, animation_name:str, sprite_index:int) -> pygame.Surface:
+        """Sets the given texture of this sprite to the one given. Returns a surface for setting another objects image."""
+        
+        new_sprite = pygame.Surface((self.width, self.height))
         #checking if the animation exists
         if animation_name not in self.animations:
             print(f"ERROR: Sprite: get_sprite: Given animation name {animation_name} does not exist.")
         else:
             try:
                 #returns the sprite transformed to the current size
-                return pygame.transform.scale(self.animations[animation_name][sprite_index], (self.width, self.height))
+                new_sprite = pygame.transform.scale(self.animations[animation_name][sprite_index], (self.width, self.height))
             except KeyError:
                 print(f"ERROR: Sprite: get_sprite: Given sprite index {sprite_index} does not exist.")
 
-
-        #placeholder surface
-        return pygame.Surface((self.width, self.height))
+        #returning and setting new_sprite
+        self.texture = new_sprite
+        return new_sprite
 
 
     def add_sprites(self, src:str, name:str, sprite_rows:int, sprite_columns:int) -> None:

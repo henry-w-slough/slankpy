@@ -1,7 +1,8 @@
 import pygame
 
-from . import GameObject
-class PhysicsObject(GameObject.GameObject):
+from .GameObject import GameObject
+
+class PhysicsObject(GameObject):
 
 
     def __init__(self, width: int, height: int, *groups:pygame.sprite.Group) -> None:

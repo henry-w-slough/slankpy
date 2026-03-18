@@ -1,11 +1,10 @@
 import pygame
 
-from . import Camera
-
 class Screen():
     
 
     def __init__(self, width:int, height:int) -> None:
+        """Class that manages all window and update actions. Can add and remove layers for screen drawing and update the window with it's update() function."""
 
         self.screen = pygame.display.set_mode((width, height))
         

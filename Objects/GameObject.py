@@ -5,7 +5,7 @@ class GameObject(pygame.sprite.Sprite):
 
 
     def __init__(self, width:int, height:int, *groups:pygame.sprite.Group) -> None:
-        """Represents any object with a position, rect, and sprite."""
+        """Represents any object with a position, rectangle, and sprite/texture."""
         super().__init__(*groups)
 
         self.image = pygame.Surface((width, height))
@@ -36,7 +36,5 @@ class GameObject(pygame.sprite.Sprite):
     def set_sprite(self, animation_name:str, sprite_index:int) -> None:
         """Changes the sprite to the given Sprite animation and the specific frame index.
             Sprites must be added through the Sprite of this object in order to be used."""
-        #getting sprite
-        sprite = self.sprite.get_sprite(animation_name, sprite_index)
-        #updating this image
-        self.image = sprite
+
+        self.image = self.sprite.set_sprite(animation_name, sprite_index)
