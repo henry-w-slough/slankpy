@@ -20,21 +20,31 @@ class Camera:
 
     
     def set_fov(self, x:int, y:int) -> None:
-        """Changes the distance at which GameObjects are drawn."""
+        """Changes the distance at which objects are accounted for in reference to the target's position."""
         self.fov_x = x
         self.fov_y = y
 
 
-    def get_visible_layer(self, layer:pygame.sprite.Group) -> pygame.sprite.Group:
-        """Returns a group of all sprites that are visible on the Screen. Compares the position of this object's target and the FOV to check for visibility."""
+    def get_visible(self, *layers:pygame.sprite.Group) -> pygame.sprite.Group:
+        """Returns a group of all sprites within given layers that are deemed visible on the Screen. Compares the position of this object's target and the FOV to check for visibility."""
 
         visible = pygame.sprite.Group()
         
-        #iterating through the given layer
-        for s in layer:
-            #comparing the position to the fov of the Camera
-            if s.rect.center[0] > self.target.rect.center[0]-self.fov_x and s.rect.center[0] < self.target.rect.center[0]+self.fov_x:
-                if s.rect.center[1] > self.target.rect.center[1] - self.fov_y and s.rect.center[1] < self.target.rect.center[1] + self.fov_y:
-                    visible.add(s)
-            
+        for layer in layers:
+            #iterating through the given layer
+            for s in layer:
+                #comparing the position to the fov of the Camera
+                if s.rect.center[0] > self.target.rect.center[0]-self.fov_x and s.rect.center[0] < self.target.rect.center[0]+self.fov_x:
+                    if s.rect.center[1] > self.target.rect.center[1] - self.fov_y and s.rect.center[1] < self.target.rect.center[1] + self.fov_y:
+                        visible.add(s)
+                
         return visible
+    
+
+    def scale_to_viewport(self, *layers:pygame.sprite.Group) -> pygame.sprite.Group:
+        """Returns the given layers scaled to the size of the viewport and target scale. 
+            NOTE: You should get the visible sprites before scaling them to maximize performance.
+        """
+        
+        scaled = pygame.sprite.Group()
+        return scaled
