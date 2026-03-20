@@ -51,9 +51,3 @@ class PhysicsObject(GameObject):
         """Sets the velocity to the given values."""
         self.vel_x = x
         self.vel_y = y
-
-    
-    def add_force(self, x:int, y:int) -> None:
-        """Adds the given forces to the corresponding velocities of the object."""
-        self.vel_x += x
-        self.vel_y += y

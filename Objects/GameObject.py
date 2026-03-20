@@ -36,5 +36,5 @@ class GameObject(pygame.sprite.Sprite):
     def set_sprite(self, animation_name:str, sprite_index:int) -> None:
         """Changes the sprite to the given Sprite animation and the specific frame index.
             Sprites must be added through the Sprite of this object in order to be used."""
-
-        self.image = self.sprite.set_sprite(animation_name, sprite_index)
+        self.sprite.set_sprite(animation_name, sprite_index)
+        self.image = self.sprite.texture
