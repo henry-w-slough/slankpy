@@ -1,7 +1,7 @@
 import pygame
-from . import Sprite
+from ..GameObject import Sprite
 
-class GameObject(pygame.sprite.Sprite):
+class KinematicObject(pygame.sprite.Sprite):
 
 
     def __init__(self, width:int, height:int, *groups:pygame.sprite.Group) -> None:
@@ -12,6 +12,9 @@ class GameObject(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.sprite = Sprite.Sprite(width, height)
+
+        self.vel_x = 0
+        self.vel_y = 0
 
 
     def set_position(self, x:int, y:int) -> None:

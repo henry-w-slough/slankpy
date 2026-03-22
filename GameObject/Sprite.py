@@ -79,7 +79,6 @@ class Sprite():
 
             self.animations[name][sprite_num] = new_sprite
 
-
             sprite_num += 1
 
             #adding 1 to row, and when the row end is met,
