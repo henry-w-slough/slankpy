@@ -15,23 +15,21 @@ class Camera:
 
         self.target:KinematicObject.KinematicObject
         
-        self.offset_x = 0
-        self.offset_y = 0
+        self.last_x = 0
+        self.last_y = 0
 
 
     def add_offset(self, layer:pygame.sprite.Group) -> None:
         """Adds the offset of the Camera to the given object's position."""
-        self.offset_x -= self.target.transform.world_x - self.offset_x
-        self.offset_y -= self.target.transform.world_y - self.offset_y
+        self.offset_x = self.last_x - self.target.t
         for s in layer:
             s.add_position(self.offset_x, self.offset_y)
 
 
     def get_visible(self, layer:pygame.sprite.Group) -> pygame.sprite.Group:
-        """Used for object view culling. Goes through the given Group and removes sprites that aren't """
+        """Used for object view culling. Goes through the given Group and removes sprites that aren't visible on the screen."""
         for s in layer:
             if not s.rect.colliderect(self.viewport_rect):
                 layer.remove(s)
-
         return layer
             

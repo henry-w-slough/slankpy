@@ -1,6 +1,5 @@
 import pygame
 from ..GameObject import Sprite
-from ..GameObject import Transform
 
 class KinematicObject(pygame.sprite.Sprite):
 
@@ -14,19 +13,11 @@ class KinematicObject(pygame.sprite.Sprite):
 
         self.sprite = Sprite.Sprite(width, height)
 
-        self.transform = Transform.Transform()
-        self.transform.width = width
-        self.transform.height = height
-
-
 
     def set_position(self, x:int, y:int) -> None:
         """Sets the position to the given values."""
         self.rect.x = x
         self.rect.y = y
-
-        self.transform.world_x = x
-        self.transform.world_x = y
 
 
     def add_position(self, x:float, y:float) -> None:
@@ -34,18 +25,12 @@ class KinematicObject(pygame.sprite.Sprite):
         self.rect.x += round(x)
         self.rect.y += round(y)
 
-        self.transform.world_x += round(x)
-        self.transform.world_x += round(y)
-
 
     def set_size(self, width:int, height:int) -> None:
         """Sets the size to the given values."""
         self.sprite.set_size(width, height)
         self.image = self.sprite.texture
         self.rect = self.image.get_rect()
-
-        self.transform.width = width
-        self.transform.height = height
 
 
     def set_sprite(self, animation_name:str, sprite_index:int) -> None:
