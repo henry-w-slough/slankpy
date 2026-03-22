@@ -13,6 +13,8 @@ class KinematicObject(pygame.sprite.Sprite):
 
         self.sprite = Sprite.Sprite(width, height)
 
+        self.world_rect = self.rect.copy()
+
 
     def set_position(self, x:int, y:int) -> None:
         """Sets the position to the given values."""
@@ -24,6 +26,8 @@ class KinematicObject(pygame.sprite.Sprite):
         """Adds the given values to the position."""
         self.rect.x += round(x)
         self.rect.y += round(y)
+
+        self.world_rect = self.rect.copy()
 
 
     def set_size(self, width:int, height:int) -> None:

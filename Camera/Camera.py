@@ -18,12 +18,16 @@ class Camera:
         self.last_x = 0
         self.last_y = 0
 
+        self.offset_x = 0
+        self.offset_y = 0
+
+        self.screen_width = pygame.display.get_surface().get_width()
+        self.screen_height = pygame.display.get_surface().get_height()
+
 
     def add_offset(self, layer:pygame.sprite.Group) -> None:
         """Adds the offset of the Camera to the given object's position."""
-        self.offset_x = self.last_x - self.target.t
-        for s in layer:
-            s.add_position(self.offset_x, self.offset_y)
+
 
 
     def get_visible(self, layer:pygame.sprite.Group) -> pygame.sprite.Group:
