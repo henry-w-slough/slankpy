@@ -21,6 +21,9 @@ class PhysicsObject(KinematicObject):
 
         self.rect.x += round(self.vel_x)
         self.rect.y += round(self.vel_y)
+        
+        self.transform.world_x += round(self.vel_x)
+        self.transform.world_y += round(self.vel_y)
 
         if abs(self.vel_x) > 0.1:
             self.vel_x -= self.vel_x * self.friction
