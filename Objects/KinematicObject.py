@@ -24,8 +24,6 @@ class KinematicObject(pygame.sprite.Sprite):
         """Sets the position to the given values."""
         self.rect.x = x
         self.rect.y = y
-        self.viewport_x = x
-        self.viewport_y = y
 
 
     def add_position(self, x:float, y:float) -> None:
