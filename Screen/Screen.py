@@ -19,8 +19,6 @@ class Screen():
 
         }
 
-        self.visible_layer = pygame.sprite.Group()
-
         self.fill_color = (0, 0, 0)
 
 
@@ -39,9 +37,9 @@ class Screen():
 
         for layer in self.layers.values():
             layer.update()
-        
-        for s in self.visible_layer:
-            self.screen.blit(s.image, (s.viewport_x, s.viewport_y))
+            #drawing layer, blitting it so any Camera in use can be properly used for offsetting each sprite
+            for s in layer:
+                self.screen.blit(s.image, (s.viewport_x, s.viewport_y))
             
         pygame.display.update()
         self.clock.tick(60)

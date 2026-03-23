@@ -35,24 +35,10 @@ class Camera:
         self.focus_target()
     
 
-    def apply_offset(self, *layers:pygame.sprite.Group) -> None:
+    def apply_camera_offset(self, *layers:pygame.sprite.Group) -> None:
         for layer in layers:
             for s in layer:
                 if s != self.target:
                     s.viewport_x = s.rect.x - self.target.rect.x
                     s.viewport_y = s.rect.y - self.target.rect.y
-
-
-    def get_visible(self, *layers:pygame.sprite.Group) -> pygame.sprite.Group:
-        """Used for object view culling. Goes through the given Groups and removes sprites that aren't visible on the screen."""
-        visible = pygame.sprite.Group()
-
-        for layer in layers:
-            for s in layer:
-                if s.rect.colliderect(self.viewport_rect):
-                    visible.add(s)
-                else:
-                    visible.remove(s)
-
-        return visible
             
