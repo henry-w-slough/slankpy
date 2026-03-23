@@ -13,21 +13,25 @@ class KinematicObject(pygame.sprite.Sprite):
 
         self.sprite = Sprite.Sprite(width, height)
 
-        self.world_rect = self.rect.copy()
+
+        #rect position can work functionally as World position
+        #viewport values are relative to the screen
+        self.viewport_x = 0
+        self.viewport_y = 0
 
 
     def set_position(self, x:int, y:int) -> None:
         """Sets the position to the given values."""
         self.rect.x = x
         self.rect.y = y
+        self.viewport_x = x
+        self.viewport_y = y
 
 
     def add_position(self, x:float, y:float) -> None:
         """Adds the given values to the position."""
         self.rect.x += round(x)
         self.rect.y += round(y)
-
-        self.world_rect = self.rect.copy()
 
 
     def set_size(self, width:int, height:int) -> None:

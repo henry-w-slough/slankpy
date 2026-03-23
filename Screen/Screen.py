@@ -1,4 +1,5 @@
 import pygame
+import random
 
 class Screen():
     
@@ -18,6 +19,8 @@ class Screen():
 
         }
 
+        self.visible_layer = pygame.sprite.Group()
+
         self.fill_color = (0, 0, 0)
 
 
@@ -36,7 +39,9 @@ class Screen():
 
         for layer in self.layers.values():
             layer.update()
-            layer.draw(self.screen)
+        
+        for s in self.visible_layer:
+            self.screen.blit(s.image, (s.viewport_x, s.viewport_y))
             
         pygame.display.update()
         self.clock.tick(60)
