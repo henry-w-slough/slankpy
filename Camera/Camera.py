@@ -9,11 +9,6 @@ class Camera:
 
     def __init__(self, target:KinematicObject.KinematicObject) -> None:
         """Handles all world to viewport calculations and translations."""
-        
-        self.viewport_image = pygame.Surface((pygame.display.get_surface().get_width(), pygame.display.get_surface().get_height()))
-        self.viewport_rect = self.viewport_image.get_rect()
-
-        self.viewport_image.fill((255, 255, 255, 100))
 
         self.target = target
         self.focus_target()
