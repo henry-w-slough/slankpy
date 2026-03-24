@@ -10,6 +10,8 @@ class Camera:
     def __init__(self, target:KinematicObject.KinematicObject) -> None:
         """Handles all world to viewport calculations and translations. Holds a target, which is the object in focus on the screen. Utilizes viewport positions of Objects to draw them on the screen, instead of direct world-position change."""
 
+        #used top adjust the viewport position. Because the target's VP is adjusted to the middle of the screen,
+        #each transformation has to be adjusted to compensate
         self.focus_x = (pygame.display.get_surface().get_width()//2) - (target.rect.width//2)
         self.focus_y = (pygame.display.get_surface().get_height()//2) - (target.rect.height//2)
 
