@@ -19,6 +19,9 @@ class Screen():
 
         }
 
+        #works for Camera culling, used to only draw certain sprites but update all
+        self.visible_layer = pygame.sprite.Group()
+
         self.fill_color = (0, 0, 0)
 
 
@@ -38,11 +41,16 @@ class Screen():
         for layer in self.layers.values():
             layer.update()
             #drawing layer, blitting it so any Camera in use can be properly used for offsetting each sprite
-            for s in layer:
-                self.screen.blit(s.image, (s.viewport_x, s.viewport_y))
+        for s in self.visible_layer:
+            self.screen.blit(s.image, (s.viewport_x, s.viewport_y))
             
         pygame.display.update()
         self.clock.tick(60)
+
+
+    def set_caption(self, caption:str) -> None:
+        """Sets the caption of the screen window."""
+        pygame.display.set_caption(caption)
     
 
     def add_layer(self, name:str) -> None:
