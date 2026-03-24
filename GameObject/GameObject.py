@@ -1,7 +1,7 @@
 import pygame
 from ..GameObject import Sprite
 
-class KinematicObject(pygame.sprite.Sprite):
+class GameObject(pygame.sprite.Sprite):
 
 
     def __init__(self, width:int, height:int, *groups:pygame.sprite.Group) -> None:

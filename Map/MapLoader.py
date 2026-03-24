@@ -1,7 +1,7 @@
 
 import json
 import pygame
-from ..Objects import KinematicObject
+from ..GameObject import KinematicObject
 
 
 def load_map(src:str) -> dict:

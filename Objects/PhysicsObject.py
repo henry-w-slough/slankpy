@@ -1,6 +1,6 @@
 import pygame
 
-from .KinematicObject import KinematicObject
+from ..GameObject.KinematicObject import KinematicObject
 
 class PhysicsObject(KinematicObject):
 

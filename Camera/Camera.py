@@ -1,13 +1,13 @@
 import pygame
 import random
 
-from ..Objects import KinematicObject
+from ..GameObject import GameObject
 
 
 class Camera:
 
 
-    def __init__(self, target:KinematicObject.KinematicObject) -> None:
+    def __init__(self, target:GameObject.GameObject) -> None:
         """Handles all world to viewport calculations and translations. Holds a target, which is the object in focus on the screen. Utilizes viewport positions of Objects to draw them on the screen, instead of direct world-position change."""
 
         self.screen_width = pygame.display.get_surface().get_width()
@@ -33,12 +33,12 @@ class Camera:
         self.target.viewport_y = self.target.rect.y
         
 
-    def set_target(self, target:KinematicObject.KinematicObject) -> None:
+    def set_target(self, target:GameObject.GameObject) -> None:
         """Set the target that this camera focuses on."""
         self.target = target
     
 
-    def apply_camera_offset(self, *layers:pygame.sprite.Group) -> None:
+    def apply_offset(self, *layers:pygame.sprite.Group) -> None:
         """Applies the transformations neccessary to the given group to follow the target. Note: This function is NECCESSARY in order to follow a target using a Camera object."""
         for layer in layers:
             for s in layer:
