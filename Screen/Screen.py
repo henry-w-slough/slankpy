@@ -45,7 +45,7 @@ class Screen():
             self.screen.blit(s.image, (s.viewport_x, s.viewport_y))
             
         pygame.display.update()
-        self.clock.tick(60)
+        self.clock.tick(120)
 
 
     def set_caption(self, caption:str) -> None:

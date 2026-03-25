@@ -48,7 +48,7 @@ class Camera:
                 s.viewport_y = s.rect.y - self.target.rect.y + self.focus_y
 
 
-    def cull_layer(self, *layers:pygame.sprite.Group) -> pygame.sprite.Group:
+    def cull_layers(self, *layers:pygame.sprite.Group) -> pygame.sprite.Group:
         
         visible = pygame.sprite.Group()
 
