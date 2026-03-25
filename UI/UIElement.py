@@ -13,43 +13,43 @@ class UIElement(GameObject.GameObject):
         self.previous_text = ""
 
         self.text_color = (255, 255, 255)
-        self.background_color = (0, 0, 0, 255)
+        self.background_color = (100, 0, 0, 0)
 
         self.font_src = font_src
 
         self.font_cache = {}
 
 
-    def set_font_src(self, font_src:pygame.font.Font) -> None:
+    def set_font_src(self, font_src:str) -> None:
         """Sets the source of where the font of this object's text is. 
-           Note: Any cached text data will no longer be useable, essentially meaning all text drawn will have to be re-cached."""
+           Note: Switching fonts will result in unused cache data from different unused fonts."""
         self.font_cache.clear()
         self.font_src = font_src
 
         
     def get_font_by_size(self, size: int) -> pygame.font.Font:
-        """Get a cached font object of the given size."""
+        """Get a cached font object of the given size. If the font doesn't exist, it is loaded into the cache."""
         if size not in self.font_cache:
             if isinstance(self.font_src, str):
                 #this object's font as the cached font
                 self.font_cache[size] = pygame.font.Font(self.font_src, size)
             else:
                 #default placeholder font
-                self.font_cache[size] = pygame.font.get_default_font()
+                self.font_cache[size] = pygame.font.SysFont("Arial", size)
                 
         return self.font_cache[size]
     
 
-    def set_text(self, text:str, text_color:tuple=(255, 255, 255, 0), background_color:tuple=(0, 0, 0)) -> None:
+    def set_text(self, text:str) -> None:
         """Sets the text displayed to the given string."""
 
         self.image.fill(self.background_color)
 
         self.text = text
 
-        #uses default font unless other is specified through function
-        self.font = pygame.font.get_default_font()
 
+    def set_fill_colors(self, text_color:tuple, background_color:tuple) -> None:
+        """Sets the colors that fill the background and the text of the object."""  
         self.text_color = text_color
         self.background_color = background_color
         
@@ -84,7 +84,6 @@ class UIElement(GameObject.GameObject):
                 else:
                     high = mid - 1
             
-
             #rendering final font
             font = self.get_font_by_size(best_size)
             text_image = font.render(self.text, False, self.text_color)
@@ -92,7 +91,6 @@ class UIElement(GameObject.GameObject):
             #calculating position based on object and text size
             x = (self.rect.width - text_image.get_width()) // 2
             y = (self.rect.height - text_image.get_height()) // 2
-
 
             temp.blit(text_image, (x, y))
             self.image = temp
