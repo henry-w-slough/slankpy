@@ -6,7 +6,7 @@ pygame.font.init()
 class UIElement(GameObject.GameObject):
     
 
-    def __init__(self, width:int, height:int, *groups:pygame.sprite.Group) -> None:
+    def __init__(self, width:int, height:int, font_src:str, *groups:pygame.sprite.Group) -> None:
         super().__init__(width, height, *groups)
 
         self.text = ""
@@ -15,13 +15,28 @@ class UIElement(GameObject.GameObject):
         self.text_color = (255, 255, 255)
         self.background_color = (0, 0, 0, 255)
 
+        self.font_src = font_src
+
         self.font_cache = {}
 
 
-    def get_font(self, size: int) -> pygame.font.Font:
+    def set_font_src(self, font_src:pygame.font.Font) -> None:
+        """Sets the source of where the font of this object's text is. 
+           Note: Any cached text data will no longer be useable, essentially meaning all text drawn will have to be re-cached."""
+        self.font_cache.clear()
+        self.font_src = font_src
+
+        
+    def get_font_by_size(self, size: int) -> pygame.font.Font:
         """Get a cached font object of the given size."""
         if size not in self.font_cache:
-            self.font_cache[size] = pygame.font.Font("font.ttf", size)
+            if isinstance(self.font_src, str):
+                #this object's font as the cached font
+                self.font_cache[size] = pygame.font.Font(self.font_src, size)
+            else:
+                #default placeholder font
+                self.font_cache[size] = pygame.font.get_default_font()
+                
         return self.font_cache[size]
     
 
@@ -57,8 +72,8 @@ class UIElement(GameObject.GameObject):
                 #middle size of the font sizes
                 mid = (low + high) // 2
 
-                #rendering the text with the new size of mid
-                font = self.get_font(mid)
+                #gets a cached font of the same size
+                font = self.get_font_by_size(mid)
                 text_image = font.render(self.text, False, self.text_color)
                 
                 #if the size is too small
@@ -71,7 +86,7 @@ class UIElement(GameObject.GameObject):
             
 
             #rendering final font
-            font = self.get_font(best_size)
+            font = self.get_font_by_size(best_size)
             text_image = font.render(self.text, False, self.text_color)
 
             #calculating position based on object and text size
