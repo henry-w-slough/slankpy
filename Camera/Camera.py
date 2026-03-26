@@ -8,7 +8,7 @@ class Camera:
 
 
     def __init__(self, target:GameObject.GameObject) -> None:
-        """Handles all world to viewport calculations and translations. Holds a target, which is the object in focus on the screen. Utilizes viewport positions of Objects to draw them on the screen, instead of direct world-position change."""
+        """Handles all viewport positional calculations and translations. Holds a target, which is the object in focus on the screen. Utilizes viewport positions of Objects to draw them on the screen, instead of direct world-position change."""
 
         self.screen_width = pygame.display.get_surface().get_width()
         self.screen_height = pygame.display.get_surface().get_height()
@@ -20,6 +20,7 @@ class Camera:
         self.target = target
         self.focus_target()
 
+
     def focus_target(self) -> None:
         """Change the screen position of the target to the middle of the screen."""
         self.target.viewport_x = self.focus_x
@@ -28,7 +29,6 @@ class Camera:
 
     def unfocus_target(self) -> None:
         """Reset the target's screen-relative position to it's actual world position."""
-        #functionally resets the position of the target back to it's world position
         self.target.viewport_x = self.target.rect.x
         self.target.viewport_y = self.target.rect.y
         

@@ -4,7 +4,7 @@ from ..GameObject import GameObject
 pygame.font.init()
 
 
-class UIElement(GameObject.GameObject):
+class Label(GameObject.GameObject):
     def __init__(self, width: int, height: int, font_src: str, *groups: pygame.sprite.Group) -> None:
         """Represents any object that has text on its surface. Inherits from GameObject.
         All functions from GameObject can be used, including Sprite changes and rect transformations."""
@@ -24,7 +24,7 @@ class UIElement(GameObject.GameObject):
         #cache for storing font data
         self.font_cache = {}
 
-        #whether or not the object's been changed this frame
+        #whether or not the object's been changed this frame...
         self.is_dirty = True
 
 

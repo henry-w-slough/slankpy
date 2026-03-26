@@ -16,5 +16,10 @@ def is_key_pressed(*keys:int) -> bool:
             return True
         
     return False
+
+
+def get_mouse_position() -> tuple[int, int]:
+    """Returns the position of the mouse cursor."""
+    return pygame.mouse.get_pos()
         
         

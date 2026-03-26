@@ -13,7 +13,6 @@ class GameObject(pygame.sprite.Sprite):
 
         self.sprite = Sprite.Sprite(width, height)
 
-
         #rect position can work functionally as World position
         #viewport values are relative to the screen
         self.viewport_x = 0
