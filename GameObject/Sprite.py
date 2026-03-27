@@ -7,6 +7,7 @@ class Sprite():
         """Holds all that's needed for animation and sprites for a GameObject."""
         
         self.texture = pygame.Surface((width, height))
+        self.mask = pygame.mask.from_surface(self.texture)
 
         self.width = width
         self.height = height
@@ -21,6 +22,7 @@ class Sprite():
     def set_size(self, width:int, height:int) -> None:
 
         self.texture = pygame.transform.scale(self.texture, (width, height))
+        self.mask = pygame.mask.from_surface(self.texture)
 
         self.width = width
         self.height = height
@@ -42,6 +44,7 @@ class Sprite():
 
         #returning and setting new_sprite
         self.texture = new_sprite
+        self.mask = pygame.mask.from_surface(self.texture)
 
 
     def add_sprites(self, src:str, name:str, sprite_rows:int, sprite_columns:int) -> None:
