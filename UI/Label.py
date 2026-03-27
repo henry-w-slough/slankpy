@@ -10,9 +10,6 @@ class Label(GameObject.GameObject):
         All functions from GameObject can be used, including Sprite changes and rect transformations."""
         super().__init__(width, height, *groups)
 
-        #uses pygame.SRCALPHA for transparency
-        self.image = pygame.Surface((width, height), pygame.SRCALPHA)
-
         self.text = ""
         self.previous_text = ""
 
@@ -126,4 +123,6 @@ class Label(GameObject.GameObject):
             self.redraw()
             self.previous_text = self.text
             self.is_dirty = False
+
+        self.mask = pygame.mask.from_surface(self.image)
 
