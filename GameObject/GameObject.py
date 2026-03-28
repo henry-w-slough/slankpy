@@ -1,5 +1,6 @@
 import pygame
 from ..GameObject import Sprite
+from ..GameObject import Collision
 
 
 class GameObject(pygame.sprite.Sprite):
@@ -57,44 +58,25 @@ class GameObject(pygame.sprite.Sprite):
 
 
     def collision_check(self, *layers) -> dict:
+        """Checks for collision with the objects within the given layers. collision_type can be used to change between pixel-perfect (mask) and rectangle (rect) collision."""
 
         collisions = {"top": False, "bottom": False, "left": False, "right": False}
         
         for layer in layers:
-
-            if not pygame.sprite.spritecollide(self, layer, False):  # type: ignore
+        
+            #checks if there is rect overlap before the less efficient mask checks
+            if not pygame.sprite.spritecollide(self, layer, False): #type: ignore
                 continue
 
             for obj in pygame.sprite.spritecollide(self, layer, False, pygame.sprite.collide_mask):  # type: ignore
+
                 if obj == self:
                     continue
 
-                # Get mask bounds in world space
-                self_bounds: list[pygame.Rect] = self.mask.get_bounding_rects() #type: ignore
-                obj_bounds: list[pygame.Rect] = obj.mask.get_bounding_rects()
+                mask_rect = Collision.get_mask_rect(self.rect, self.mask)
+                obj_mask_rect = Collision.get_mask_rect(obj.rect, obj.mask)
 
-                #if the bounds are empty, skip
-                if not self_bounds or not obj_bounds:
-                    continue
-
-
-                #the first rect for the mask rect building
-                mask_rect = pygame.Rect(self_bounds[0])
-                obj_mask_rect = pygame.Rect(obj_bounds[0])
-
-                #building the mask rect for self mask
-                for r in self_bounds[1:]: 
-                    mask_rect.union_ip(r)
-                #building mask rect for object
-                for r in obj_bounds[1:]: 
-                    obj_mask_rect.union_ip(r)
-
-                # Offset to world space
-                mask_rect.move_ip(self.rect.topleft)
-                obj_mask_rect.move_ip(obj.rect.topleft)
-
-                overlap_x = min(mask_rect.right, obj_mask_rect.right) - max(mask_rect.left, mask_rect.left)
-                overlap_y = min(mask_rect.bottom, obj_mask_rect.bottom) - max(mask_rect.top, obj_mask_rect.top)
+                overlap_x, overlap_y = Collision.get_mask_overlap(mask_rect, obj_mask_rect)
 
                 if overlap_x <= 0 or overlap_y <= 0:
                     continue

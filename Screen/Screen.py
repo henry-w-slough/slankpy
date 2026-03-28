@@ -7,7 +7,7 @@ class Screen():
     def __init__(self, width:int, height:int) -> None:
         """Class that manages all window and update actions. Can add and remove layers for screen drawing and update the window with it's update() function."""
 
-        self.screen = pygame.display.set_mode((width, height))
+        self.screen = pygame.display.set_mode((width, height), vsync=1)
         
         self.width = width
         self.height = height
@@ -45,7 +45,7 @@ class Screen():
             self.screen.blit(pygame.transform.scale(s.image, (s.viewport_width, s.viewport_height)), (s.viewport_x, s.viewport_y))
             
         pygame.display.update()
-        self.clock.tick(120)
+        self.clock.tick_busy_loop(60)
 
 
     def set_caption(self, caption:str) -> None:
