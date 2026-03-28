@@ -20,6 +20,9 @@ class GameObject(pygame.sprite.Sprite):
         self.viewport_x = 0
         self.viewport_y = 0
 
+        self.viewport_width = width
+        self.viewport_height = height
+
 
     def set_position(self, x:int, y:int) -> None:
         """Sets the position to the given values."""
@@ -39,6 +42,7 @@ class GameObject(pygame.sprite.Sprite):
 
         self.image = self.sprite.texture
         self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)
         
         self.viewport_x = self.rect.x
         self.viewport_y = self.rect.y
@@ -49,6 +53,7 @@ class GameObject(pygame.sprite.Sprite):
             Sprites must be added through the Sprite of this object in order to be used."""
         self.sprite.set_sprite(animation_name, sprite_index)
         self.image = self.sprite.texture
+        self.mask = pygame.mask.from_surface(self.image)
 
 
     def collision_check(self, *layers) -> dict:

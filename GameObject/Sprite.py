@@ -50,6 +50,7 @@ class Sprite():
         #attempting image loading
         try:
             spritesheet = pygame.image.load(src)
+            spritesheet.convert_alpha()
         except Exception as e:
             print(f"ERROR: Sprite: load_sprites: {e}")
             return

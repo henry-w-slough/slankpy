@@ -14,8 +14,10 @@ class Camera:
         self.screen_height = pygame.display.get_surface().get_height()
         #used top adjust the viewport position. Because the target's VP is adjusted to the middle of the screen,
         #each transformation has to be adjusted to compensate
-        self.focus_x = (self.screen_width//2) - (target.rect.width//2)
-        self.focus_y = (self.screen_height//2) - (target.rect.height//2)
+        self.focus_x = (self.screen_width//2) - (target.viewport_width//2)
+        self.focus_y = (self.screen_height//2) - (target.viewport_height//2)
+
+        self.zoom = 1
 
         self.target = target
         self.focus_target()
@@ -23,9 +25,13 @@ class Camera:
 
     def focus_target(self) -> None:
         """Change the screen position of the target to the middle of the screen."""
-        self.target.viewport_x = self.focus_x
-        self.target.viewport_y = self.focus_y
 
+        #updates the focus based on the zoom of the camera, needed for constant target focus when function run
+        self.focus_x = (self.screen_width//2) - ((self.target.viewport_width*self.zoom)//2)
+        self.focus_y = (self.screen_height//2) - ((self.target.viewport_height*self.zoom)//2)
+
+        self.target.viewport_x = round(self.focus_x)
+        self.target.viewport_y = round(self.focus_y)
 
     def unfocus_target(self) -> None:
         """Reset the target's screen-relative position to it's actual world position."""
@@ -38,14 +44,23 @@ class Camera:
         self.target = target
     
 
-    def apply_offset(self, *layers:pygame.sprite.Group) -> None:
-        """Applies the transformations neccessary to the given group to follow the target. Note: This function is NECCESSARY in order to follow a target using a Camera object."""
+    def set_zoom(self, zoom: float) -> None:
+        """Sets the zoom level. 1.0 is normal, >1.0 zooms in, <1.0 zooms out."""
+        self.zoom = zoom
+        #setting focus so the target stays center after zoom changes
+        self.focus_target()
+
+
+    def apply_offset(self, *layers: pygame.sprite.Group) -> None:
+
         for layer in layers:
             for s in layer:
-                #sets the viewport position of the sprite to the axis distance of the sprite and
-                #the target added to the compensation for the target being in the middle of the screen
-                s.viewport_x = s.rect.x - self.target.rect.x + self.focus_x
-                s.viewport_y = s.rect.y - self.target.rect.y + self.focus_y
+                if s != self.target:
+                    s.viewport_x = (s.rect.x - self.target.rect.x) * self.zoom + self.focus_x
+                    s.viewport_y = (s.rect.y - self.target.rect.y) * self.zoom + self.focus_y
+
+                s.viewport_width = round(s.rect.width * self.zoom)
+                s.viewport_height = round(s.rect.height * self.zoom)
 
 
     def cull_layers(self, *layers:pygame.sprite.Group) -> pygame.sprite.Group:
@@ -56,11 +71,12 @@ class Camera:
             #every sprite in every unpackaged layer given
             for s in layer:
                 #checking x axis
-                if s.viewport_x + s.rect.width < 0 or s.viewport_x > self.screen_width:
+                if s.viewport_x + s.viewport_width < 0 or s.viewport_x > self.screen_width:
                     continue
                 #checking y axis
-                if s.viewport_y + s.rect.height < 0 or s.viewport_y > self.screen_height:
+                if s.viewport_y + s.viewport_height < 0 or s.viewport_y > self.screen_height:
                     continue
+
                 visible.add(s)
 
         return visible

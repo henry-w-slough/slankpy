@@ -42,7 +42,7 @@ class Screen():
             layer.update()
             #drawing layer, blitting it so any Camera in use can be properly used for offsetting each sprite
         for s in self.visible_layer:
-            self.screen.blit(s.image, (s.viewport_x, s.viewport_y))
+            self.screen.blit(pygame.transform.scale(s.image, (s.viewport_width, s.viewport_height)), (s.viewport_x, s.viewport_y))
             
         pygame.display.update()
         self.clock.tick(120)
