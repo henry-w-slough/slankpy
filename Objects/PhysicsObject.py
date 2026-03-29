@@ -1,8 +1,8 @@
 import pygame
 
-from ..GameObject.GameObject import GameObject
+from .KinematicObject import KinematicObject
 
-class PhysicsObject(GameObject):
+class PhysicsObject(KinematicObject):
 
 
     def __init__(self, width: int, height: int, *groups:pygame.sprite.Group) -> None:
@@ -17,17 +17,14 @@ class PhysicsObject(GameObject):
 
 
     def move_and_slide(self) -> None:
-        """Updates all physics-based calculations, required for object physics simulation."""
-
+        
         self.rect.x += round(self.vel_x)
         self.rect.y += round(self.vel_y)
-        
 
         if abs(self.vel_x) > 0.1:
             self.vel_x -= self.vel_x * self.friction
         else:
             self.vel_x = 0
-
         if abs(self.vel_y) > 0.1:
             self.vel_y -= self.vel_y * self.friction
         else:

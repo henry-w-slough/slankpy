@@ -18,9 +18,12 @@ class Camera:
         self.focus_y = (self.screen_height//2) - (target.viewport_height//2)
 
         self.zoom = 1
-
+    
         self.target = target
         self.focus_target()
+
+        #persistent visible group for cull_layers to use
+        self.visible_group = pygame.sprite.Group()
 
 
     def focus_target(self) -> None:
@@ -63,23 +66,16 @@ class Camera:
                 s.viewport_height = round(s.rect.height * self.zoom)
 
 
-    def cull_layers(self, *layers:pygame.sprite.Group) -> pygame.sprite.Group:
-        
-        visible = pygame.sprite.Group()
-
+    def cull_layers(self, *layers: pygame.sprite.Group) -> pygame.sprite.Group:
+        self.visible_group.empty()
         for layer in layers:
-            #every sprite in every unpackaged layer given
             for s in layer:
-                #checking x axis
                 if s.viewport_x + s.viewport_width < 0 or s.viewport_x > self.screen_width:
                     continue
-                #checking y axis
                 if s.viewport_y + s.viewport_height < 0 or s.viewport_y > self.screen_height:
                     continue
-
-                visible.add(s)
-
-        return visible
+                self.visible_group.add(s)
+        return self.visible_group
                 
 
 

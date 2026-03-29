@@ -124,5 +124,3 @@ class Label(GameObject.GameObject):
             self.previous_text = self.text
             self.is_dirty = False
 
-        self.mask = pygame.mask.from_surface(self.image)
-

@@ -4,15 +4,16 @@ import random
 class Screen():
     
 
-    def __init__(self, width:int, height:int) -> None:
+    def __init__(self, width:int, height:int, fps:int=60) -> None:
         """Class that manages all window and update actions. Can add and remove layers for screen drawing and update the window with it's update() function."""
 
-        self.screen = pygame.display.set_mode((width, height), vsync=1)
+        self.screen = pygame.display.set_mode((width, height), vsync=True)
         
         self.width = width
         self.height = height
 
         self.clock = pygame.time.Clock()
+        self.fps = fps
 
         #represents all the layers in the game
         self.layers = {
@@ -38,14 +39,13 @@ class Screen():
         
         self.screen.fill(self.fill_color)
 
-        for layer in self.layers.values():
-            layer.update()
-            #drawing layer, blitting it so any Camera in use can be properly used for offsetting each sprite
+        #drawing layer, blitting it so any Camera in use can be properly used for offsetting each sprite
+        self.visible_layer.update()
         for s in self.visible_layer:
             self.screen.blit(pygame.transform.scale(s.image, (s.viewport_width, s.viewport_height)), (s.viewport_x, s.viewport_y))
             
         pygame.display.update()
-        self.clock.tick_busy_loop(60)
+        self.clock.tick_busy_loop(self.fps)
 
 
     def set_caption(self, caption:str) -> None:
