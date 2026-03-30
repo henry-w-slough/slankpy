@@ -7,7 +7,7 @@ class PhysicsObject(KinematicObject):
 
     def __init__(self, width: int, height: int, *groups:pygame.sprite.Group) -> None:
         """Any object that moves with velocities and friction instead of direct position changes. move_and_slide() must be called for movement to function.
-            Inherits from GameObject, meaning positions, size, and sprites can still be adjusted directly."""
+            Inherits from KinematicObject, meaning positions, size, and sprites can still be adjusted directly."""
         super().__init__(width, height, *groups)
 
         self.vel_x = 0
@@ -17,6 +17,7 @@ class PhysicsObject(KinematicObject):
 
 
     def move_and_slide(self) -> None:
+        """Updates and applies all physics-based transformations of a PhysicsObject. Required call for physics simulation."""
         
         self.rect.x += round(self.vel_x)
         self.rect.y += round(self.vel_y)

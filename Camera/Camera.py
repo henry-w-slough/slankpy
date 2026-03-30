@@ -36,6 +36,7 @@ class Camera:
         self.target.viewport_x = round(self.focus_x)
         self.target.viewport_y = round(self.focus_y)
 
+
     def unfocus_target(self) -> None:
         """Reset the target's screen-relative position to it's actual world position."""
         self.target.viewport_x = self.target.rect.x
@@ -45,6 +46,7 @@ class Camera:
     def set_target(self, target:GameObject.GameObject) -> None:
         """Set the target that this camera focuses on."""
         self.target = target
+        self.focus_target()
     
 
     def set_zoom(self, zoom: float) -> None:
@@ -55,7 +57,7 @@ class Camera:
 
 
     def apply_offset(self, *layers: pygame.sprite.Group) -> None:
-
+        """Applies camera transformations to the given layers needed to follow the target."""
         for layer in layers:
             for s in layer:
                 if s != self.target:
@@ -67,6 +69,7 @@ class Camera:
 
 
     def cull_layers(self, *layers: pygame.sprite.Group) -> pygame.sprite.Group:
+        """Gets a Group of all sprites in the given layers that are visible within the viewport."""
         self.visible_group.empty()
         for layer in layers:
             for s in layer:

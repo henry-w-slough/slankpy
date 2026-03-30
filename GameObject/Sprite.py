@@ -19,7 +19,7 @@ class Sprite():
 
 
     def set_size(self, width:int, height:int) -> None:
-
+        """Sets the size of the Sprite."""
         self.texture = pygame.transform.scale(self.texture, (width, height))
 
         self.width = width
