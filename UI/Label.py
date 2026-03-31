@@ -118,7 +118,6 @@ class Label(GameObject.GameObject):
             self.image.blit(text_surface, (x, y))
 
 
-
     def update(self) -> None:
         if self.text != self.previous_text or self.is_dirty:
             self.redraw()

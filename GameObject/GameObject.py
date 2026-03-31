@@ -6,7 +6,7 @@ from ..GameObject import Collision
 class GameObject(pygame.sprite.Sprite):
 
     def __init__(self, width:int, height:int, *groups:pygame.sprite.Group) -> None:
-        """Represents any object with a position, rectangle, and sprite."""
+        """Represents any object with a position, rectangle, and sprite. Also supports Collision."""
         super().__init__(*groups)
 
         self.image = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -40,20 +40,16 @@ class GameObject(pygame.sprite.Sprite):
         self.rect.y += round(y)
 
 
-    def set_size(self, width: int, height: int) -> None:
-        """Sets the size of the GameObject, including rect and sprite sizes."""
-        self.viewport_width *= (width / self.rect.width)
-        self.viewport_height *= (height / self.rect.height)
-
+    def set_size(self, width:int, height:int) -> None:
+        """Sets the size to the given values."""
         self.sprite.set_size(width, height)
+
         self.image = self.sprite.texture
-
-        self.rect = self.image.get_rect(x=self.rect.x, y=self.rect.y)
-
         self.mask = pygame.mask.from_surface(self.image)
-        self.mask_rect = Collision.get_mask_rect(self.rect, self.mask)
+        
+        self.viewport_x = self.rect.x
+        self.viewport_y = self.rect.y
 
-    
 
     def set_sprite(self, animation_name:str, sprite_index:int) -> None:
         """Changes the sprite to the given Sprite animation and the specific frame index.
