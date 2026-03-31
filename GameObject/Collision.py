@@ -1,4 +1,11 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from ..GameObject import GameObject
+
 import pygame
+
 
 
 def get_mask_rect(self_rect:pygame.Rect, mask:pygame.Mask) -> pygame.Rect:
@@ -29,3 +36,38 @@ def get_mask_overlap(mask1_rect:pygame.Rect, mask2_rect:pygame.Rect) -> list[int
     overlap_y = min(mask1_rect.bottom, mask2_rect.bottom) - max(mask1_rect.top, mask2_rect.top)
 
     return [overlap_x, overlap_y]
+
+
+def get_mask_collision(collider:GameObject.GameObject, layer:pygame.sprite.Group, ignores:list[GameObject.GameObject]) -> dict:
+    """Returns the directions of Mask collision between a layer and an object in dictionary form: ("top": None, "bottom": None, "left": None, "right": None)"""
+
+    collisions = {
+        "top": None,
+        "bottom": None,
+        "left": None,
+        "right": None
+    }
+
+    for obj in pygame.sprite.spritecollide(collider, layer, False, pygame.sprite.collide_mask):  # type: ignore
+
+        #specficied in arguements
+        if obj in ignores:
+            continue
+
+        collider_mask_rect = get_mask_rect(collider.rect, collider.mask)
+        obj_mask_rect = get_mask_rect(obj.rect, obj.mask)
+        overlap_x, overlap_y = get_mask_overlap(collider_mask_rect, obj_mask_rect)
+
+        if overlap_x < overlap_y:
+            if collider_mask_rect.centerx < obj_mask_rect.centerx:
+                collisions["right"] = obj
+            else:
+                collisions["left"] = obj
+        else:
+            if collider_mask_rect.centery < obj_mask_rect.centery:
+                collisions["bottom"] = obj
+            else:
+                collisions["top"] = obj
+
+    return collisions
+

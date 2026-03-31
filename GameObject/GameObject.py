@@ -13,6 +13,7 @@ class GameObject(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.mask = pygame.mask.from_surface(self.image)
+        self.mask_rect = Collision.get_mask_rect(self.rect, self.mask)
 
         self.sprite = Sprite.Sprite(width, height)
 
@@ -29,6 +30,8 @@ class GameObject(pygame.sprite.Sprite):
         """Sets the position to the given values."""
         self.rect.x = x
         self.rect.y = y
+        self.mask_rect.x = x
+        self.mask_rect.y = y
 
 
     def add_position(self, x:float, y:float) -> None:
@@ -44,8 +47,11 @@ class GameObject(pygame.sprite.Sprite):
 
         self.sprite.set_size(width, height)
         self.image = self.sprite.texture
+
         self.rect = self.image.get_rect(x=self.rect.x, y=self.rect.y)
+
         self.mask = pygame.mask.from_surface(self.image)
+        self.mask_rect = Collision.get_mask_rect(self.rect, self.mask)
 
     
 
@@ -55,4 +61,5 @@ class GameObject(pygame.sprite.Sprite):
         self.sprite.set_sprite(animation_name, sprite_index)
         self.image = self.sprite.texture
         self.mask = pygame.mask.from_surface(self.image)
+        self.mask_rect = Collision.get_mask_rect(self.rect, self.mask)
     
