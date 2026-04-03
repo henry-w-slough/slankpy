@@ -12,9 +12,6 @@ class GameObject(pygame.sprite.Sprite):
         self.image = pygame.Surface((width, height), pygame.SRCALPHA)
         self.rect = self.image.get_rect()
 
-        self.mask = pygame.mask.from_surface(self.image)
-        self.mask_rect = Collision.get_mask_rect(self.rect, self.mask)
-
         self.sprite = Sprite.Sprite(width, height)
 
         #rect position can work functionally as World position
@@ -30,8 +27,6 @@ class GameObject(pygame.sprite.Sprite):
         """Sets the position to the given values."""
         self.rect.x = x
         self.rect.y = y
-        self.mask_rect.x = x
-        self.mask_rect.y = y
 
 
     def add_position(self, x:float, y:float) -> None:
@@ -45,10 +40,12 @@ class GameObject(pygame.sprite.Sprite):
         self.sprite.set_size(width, height)
 
         self.image = self.sprite.texture
-        self.mask = pygame.mask.from_surface(self.image)
-        
-        self.viewport_x = self.rect.x
-        self.viewport_y = self.rect.y
+
+        self.viewport_width *= (width / self.rect.width)
+        self.viewport_height *= (height / self.rect.height)
+
+        self.rect.width = width
+        self.rect.height = height
 
 
     def set_sprite(self, animation_name:str, sprite_index:int) -> None:
@@ -56,6 +53,4 @@ class GameObject(pygame.sprite.Sprite):
             Sprites must be added through the Sprite of this object in order to be used."""
         self.sprite.set_sprite(animation_name, sprite_index)
         self.image = self.sprite.texture
-        self.mask = pygame.mask.from_surface(self.image)
-        self.mask_rect = Collision.get_mask_rect(self.rect, self.mask)
     
