@@ -22,8 +22,14 @@ class Screen():
 
         #works for Camera culling, used to only draw certain sprites but update all
         self.visible_layer = pygame.sprite.Group()
+        self.should_cull = True
 
         self.fill_color = (0, 0, 0)
+
+
+    def set_culling(self, cull:bool) -> None:
+        ""Sets the method of drawing. In practice, culling should be used when a Camera object is used to filter visible and non-visible objects. Otherwise, culling should not be performed.""
+        self.should_cull = cull
 
 
     def has_quit(self) -> bool:
@@ -40,9 +46,14 @@ class Screen():
         self.screen.fill(self.fill_color)
 
         #drawing layer, blitting it so any Camera in use can be properly used for offsetting each sprite
-        self.visible_layer.update()
-        for s in self.visible_layer:
-            self.screen.blit(pygame.transform.scale(s.image, (s.viewport_width, s.viewport_height)), (s.viewport_x, s.viewport_y))
+        if self.should_cull:
+            self.visible_layer.update()
+            for s in self.visible_layer:
+                self.screen.blit(pygame.transform.scale(s.image, (s.viewport_width, s.viewport_height)), (s.viewport_x, s.viewport_y)) 
+        else:
+            for layer in self.layers:
+                layer.update()
+                layer.draw(self.screen)
             
         pygame.display.update()
         self.clock.tick_busy_loop(self.fps)
