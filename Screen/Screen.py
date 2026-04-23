@@ -39,7 +39,9 @@ class Screen():
         
         self.screen.fill(self.fill_color)
 
-        self.visible_layer.update()
+        for p in self.layers.values():
+            p.update()
+
         for s in self.visible_layer:
             self.screen.blit(pygame.transform.scale(s.image, (s.viewport_width, s.viewport_height)), (s.viewport_x, s.viewport_y)) 
             
