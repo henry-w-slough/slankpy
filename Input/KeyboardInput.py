@@ -1,6 +1,5 @@
 import pygame
 
-
 def is_key_pressed(*keys:int) -> bool:
     """Checks if any of the given keys are currently active."""
 
@@ -11,7 +10,6 @@ def is_key_pressed(*keys:int) -> bool:
     
     #iterates through every key given
     for id in keys:
-        #if any are True, returns so
         if pygame.key.get_pressed()[id]:
             return True
         
@@ -27,10 +25,3 @@ def get_input_vector(key1:int, key2:int) -> int:
         vector += 1
 
     return vector
-
-
-def get_mouse_position() -> tuple[int, int]:
-    """Returns the position of the mouse cursor."""
-    return pygame.mouse.get_pos()
-        
-        
