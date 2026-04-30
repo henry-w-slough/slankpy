@@ -30,10 +30,10 @@ def map_to_group(map:dict, tile_spritesheet_src:str, tile_animation_name:str, ti
             x = (index % layer["width"]) * (map["tilewidth"])
             y = (index // layer["height"]) * (map["tileheight"])
 
-            t = GameObject.GameObject(map["tilewidth"], map["tileheight"], group)
-            t.set_position(x, y)
-            t.sprite.add_sprites(tile_spritesheet_src, tile_animation_name, tile_rows, tile_columns)
             if tile_id != 0:
+                t = GameObject.GameObject(map["tilewidth"], map["tileheight"], group)
+                t.set_position(x, y)
+                t.sprite.add_sprites(tile_spritesheet_src, tile_animation_name, tile_rows, tile_columns)
                 t.set_sprite(tile_animation_name, tile_id-1)
 
 
