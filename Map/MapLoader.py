@@ -14,19 +14,18 @@ def load_map(src:str) -> dict:
         return {}
     
 
-def map_to_group(map:dict, tile_spritesheet_src:str, tile_animation_name:str, tile_rows:int, tile_columns:int, tile_filter:list[int]=[]) -> pygame.sprite.Group:
-    """Takes in a dictionary of map data and returns a Group of loaded tiles. index_filter arg will not allow the given values to be added if any values are given."""
+def map_to_group(map:dict, tile_spritesheet_src:str, tile_animation_name:str, tile_rows:int, tile_columns:int, layer_filter:list[str]=[]) -> pygame.sprite.Group:
+    """Takes in a dictionary of map data and returns a Group of loaded tiles. layer_filter argument will skip the given layers provided."""
 
     group = pygame.sprite.Group()
 
     for layer in map["layers"]:
+
+        if layer["name"] in layer_filter:
+            continue
+
         for index, tile_id in enumerate(layer["data"]):
-
-
-            if tile_id in tile_filter:
-                continue
         
-                    
             x = (index % layer["width"]) * (map["tilewidth"])
             y = (index // layer["height"]) * (map["tileheight"])
 
@@ -35,7 +34,6 @@ def map_to_group(map:dict, tile_spritesheet_src:str, tile_animation_name:str, ti
                 t.set_position(x, y)
                 t.sprite.add_sprites(tile_spritesheet_src, tile_animation_name, tile_rows, tile_columns)
                 t.set_sprite(tile_animation_name, tile_id-1)
-
 
     return group
 

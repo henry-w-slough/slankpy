@@ -1,4 +1,5 @@
 import pygame
+from ..GameObject import GameObject
 
 
 def get_mouse_position() -> tuple[int, int]:
@@ -17,5 +18,17 @@ def is_mouse_clicked(*buttons:int) -> bool:
             print("ERROR: MouseInput: is_mouse_clicked: Given integer for mouse button detection is invalid. Use 0 for left click, and 1 for right click.")
             break
         
-    return False        
+    return False   
+
+
+def is_mouse_over_object(object:GameObject.GameObject) -> bool:
+    """Checks whether the mouse is over the given GameObject relative to it's position on the screen."""
+    
+    mouse_pos = get_mouse_position()
+    if mouse_pos[0] >= object.viewport_x and mouse_pos[0] <= object.viewport_x+object.viewport_width:
+        if mouse_pos[1] >= object.viewport_y and mouse_pos[1] <= object.viewport_y+object.viewport_height:
+            return True
+
+    return False
+
         
