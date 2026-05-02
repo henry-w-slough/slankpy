@@ -54,12 +54,36 @@ class Collision:
             self._resolve_overlap(self.game_object.rect, other.rect)
 
 
-    def resolve_mask(self, group: pygame.sprite.Group) -> None:
-        """Pushes this object out of any mask overlaps in the group.
-        Uses rect bounds to determine displacement direction."""
+    def resolve_mask_x(self, group: pygame.sprite.Group) -> None:
         hits = self.check_mask(group)
         for other in hits:
-            self._resolve_overlap(self.game_object.rect, other.rect)
+            self_mask = self._get_mask()
+            other_mask = pygame.mask.from_surface(other.image)
+            offset = (
+                other.rect.x - self.game_object.rect.x,
+                other.rect.y - self.game_object.rect.y
+            )
+            overlap = self_mask.overlap_mask(other_mask, offset)
+            if overlap.count() == 0:  # actually empty
+                continue
+            centroid = overlap.centroid()
+            self.game_object.rect.x += self.game_object.rect.width // 2 - centroid[0]
+
+
+    def resolve_mask_y(self, group: pygame.sprite.Group) -> None:
+        hits = self.check_mask(group)
+        for other in hits:
+            self_mask = self._get_mask()
+            other_mask = pygame.mask.from_surface(other.image)
+            offset = (
+                other.rect.x - self.game_object.rect.x,
+                other.rect.y - self.game_object.rect.y
+            )
+            overlap = self_mask.overlap_mask(other_mask, offset)
+            if overlap.count() == 0:
+                continue
+            centroid = overlap.centroid()
+            self.game_object.rect.y += self.game_object.rect.height // 2 - centroid[1]
 
 
     def _resolve_overlap(
@@ -99,3 +123,5 @@ class Collision:
     def resolve_rect_y(self, group):
         for other in pygame.sprite.spritecollide(self.game_object, group, False): #type: ignore
             self.game_object.rect.y += self._overlap_y(self.game_object.rect, other.rect)
+
+
