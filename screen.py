@@ -5,16 +5,19 @@ class Screen:
 
 
     def __init__(self, width: int, height: int, fps: float, *args, **kwargs) -> None:
-        """Where all objects and layers are updated and drawn to the display window.
+        """Where all objects and layers are updated and drawn. Has full customization of the window along with directly screen-related settings.
 
+        Note:
+            The update function of the Screen must be called in order to have layers updated and drawn properly.
         """
+
         #creating the window instance
         self._screen: pygame.Surface = pygame.display.set_mode((width, height), *args, **kwargs)
 
         #time-relations
         self._clock = pygame.time.Clock()
         self._delta_time: float = 0.0
-        self.fps = fps
+        self.fps: float = fps
 
         #screen layering
         self.background_color: tuple[int, int, int] = (0, 0, 0)
@@ -38,7 +41,7 @@ class Screen:
     @property
     def height(self) -> int:
         return self._screen.get_width()
-
+    
 
     @property
     def width(self) -> int:
@@ -56,13 +59,24 @@ class Screen:
         return self._layers
     
 
-    def add_layer(self) -> None:
+    def add_layer(self, name: str) -> None:
         """Adds a layer to be updated and drawn every frame.
 
         Note:
             Layers are drawn in the order they fall in the dictionary. To take advantage of this,
             add layers in the order of their perspective relative to the camera.
         """
+        self.layers[name] = pygame.sprite.Group()
+
+
+    def remove_layer(self, name: str) -> None:
+        """Adds a layer to be updated and drawn every frame.
+
+        Note:
+            Layers are drawn in the order they fall in the dictionary. To take advantage of this,
+            add layers in the order of their perspective relative to the camera.
+        """
+        self.layers.pop(name)
     
 
     def has_quit(self) -> bool:
