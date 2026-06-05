@@ -80,16 +80,11 @@ class Screen:
     
 
     def has_quit(self) -> bool:
-        """Whether the window has been exited.
-        
-        Note: 
-            Clears pygame.event.get() queue! If you need to access events
-            elsewhere, use pygame.event.peek() to avoid issues.
-        """
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return True
+        """Whether the window has been exited."""
+        #using peek() instead as to not clear the event queue so we can
+        #use it later down the line or in other places
+        if pygame.event.peek(pygame.QUIT):
+            return True
         return False
 
 
