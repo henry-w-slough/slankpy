@@ -16,31 +16,53 @@ class GameObject(pygame.sprite.Sprite):
         """
         super().__init__(*groups)
 
-        #type hints are needed here for proper type-hinting in functions
+        #type hints are needed here for proper refs in methods
         self.image: pygame.Surface = pygame.Surface((width, height))
         self.rect: pygame.Rect = self.image.get_rect()
 
-        self.transform = Transform()
+        self._transform = Transform(width, height)
 
-
-    def fill_color(self, color: tuple[int, int, int]) -> None:
-        """Sets the color that is filled onto the image of this GameObject. Colors used are in RGB.
-        
-        Useful for debugging or testing where a sprite addition is not necessary.
-        """
-        self.image.fill(color)
+    @property
+    def x(self) -> float:
+        return self._transform.x
     
 
-    def set_position(self, x: float, y: float) -> None:
-        """Changes the position of the GameObject.
+    @x.setter
+    def x(self, x:float) -> None:
+        self._transform.x = x
+    
+    
+    @property
+    def y(self) -> float:
+        return self._transform.y
+    
 
-        Note:
-            Changes to GameObject.x and GameObject.y will be rounded during rendering,
-            any changes made to float position are purely calculation-based for accuracy.
-        """
-        #setting class float position
-        self.transform.x = x
-        self.transform.y = y
-        #setting rect pygame position
-        self.rect.x = round(x)
-        self.rect.y = round(y)
+    @y.setter
+    def y(self, y:float) -> None:
+        self._transform.y = y
+    
+
+    @property
+    def width(self) -> float:
+        return self._transform.width
+    
+
+    @width.setter
+    def width(self, width:float) -> None:
+        self._transform.width = width 
+        self.image = pygame.transform.scale(self.image, (width, self.height))
+    
+    
+    @property
+    def height(self) -> float:
+        return self._transform.height
+    
+
+    @height.setter
+    def height(self, height:float) -> None:
+        self._transform.height = height 
+        self.image = pygame.transform.scale(self.image, (self.width, height))
+
+
+
+
