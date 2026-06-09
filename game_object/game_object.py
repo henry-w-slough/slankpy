@@ -1,6 +1,7 @@
 import pygame
 
 from .transform import Transform
+from .sprite import Sprite
 
 
 class GameObject(pygame.sprite.Sprite):
@@ -20,7 +21,10 @@ class GameObject(pygame.sprite.Sprite):
         self.image: pygame.Surface = pygame.Surface((width, height))
         self.rect: pygame.Rect = self.image.get_rect()
 
-        self._transform = Transform(width, height)
+        self._transform = Transform()
+
+        self.sprite = Sprite(width, height)
+
 
     @property
     def x(self) -> float:
@@ -28,8 +32,9 @@ class GameObject(pygame.sprite.Sprite):
     
 
     @x.setter
-    def x(self, x:float) -> None:
+    def x(self, x: float) -> None:
         self._transform.x = x
+        self.rect.x = round(x)
     
     
     @property
@@ -38,8 +43,9 @@ class GameObject(pygame.sprite.Sprite):
     
 
     @y.setter
-    def y(self, y:float) -> None:
+    def y(self, y: float) -> None:
         self._transform.y = y
+        self.rect.y = round(y)        
     
 
     @property
@@ -48,7 +54,7 @@ class GameObject(pygame.sprite.Sprite):
     
 
     @width.setter
-    def width(self, width:float) -> None:
+    def width(self, width: float) -> None:
         self._transform.width = width 
         self.image = pygame.transform.scale(self.image, (width, self.height))
     
@@ -59,9 +65,20 @@ class GameObject(pygame.sprite.Sprite):
     
 
     @height.setter
-    def height(self, height:float) -> None:
+    def height(self, height: float) -> None:
         self._transform.height = height 
         self.image = pygame.transform.scale(self.image, (self.width, height))
+
+
+    @property
+    def rotation(self) -> float:
+        return self._transform.rotation
+    
+
+    @rotation.setter
+    def rotation(self, rotation: float) -> None:
+        self._transform.rotation = rotation
+        self.image, self.rect = self._transform.get_rotated_surface(self.sprite.sprite, self.rect)
 
 
 
