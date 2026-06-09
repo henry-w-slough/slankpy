@@ -1,8 +1,8 @@
 import pygame
 
-
 class Screen:
 
+    pygame.init()
 
     def __init__(self, width: int, height: int, fps: float, *args, **kwargs) -> None:
         """Where all objects and layers are updated and drawn. Has full customization of the window along with directly screen-related settings.
@@ -89,9 +89,11 @@ class Screen:
 
 
     def update(self) -> None:
-        """Updates the screen by flipping the buffer. Updates and draws every layer in order.
+        """Updates the screen by flipping the buffer and updating + drawing every layer in order.
         
         This is also where delta_time is updated.
+
+        Should be called every frame of a loop in order for a game to be functional.
         """
 
         self._screen.fill(self.background_color)

@@ -17,13 +17,22 @@ class GameObject(pygame.sprite.Sprite):
         """
         super().__init__(*groups)
 
+
+        self._transform = Transform(width, height)
+        self.sprite = Sprite(width, height)
+
         #type hints are needed here for proper refs in methods
-        self.image: pygame.Surface = pygame.Surface((width, height))
+        self.image: pygame.Surface = self.sprite.image
         self.rect: pygame.Rect = self.image.get_rect()
 
-        self._transform = Transform()
 
-        self.sprite = Sprite(width, height)
+    def fill_color(self, color: tuple[int, int, int]) -> None:
+        """Fills the image of the GameObject with the given color.
+        
+        Useful for debugging or basic game-making where sprites aren't necessary.
+        """
+        self.sprite.fill_color(color)
+        self.image = self.sprite.image 
 
 
     @property
@@ -78,7 +87,10 @@ class GameObject(pygame.sprite.Sprite):
     @rotation.setter
     def rotation(self, rotation: float) -> None:
         self._transform.rotation = rotation
-        self.image, self.rect = self._transform.get_rotated_surface(self.sprite.sprite, self.rect)
+        self.sprite.image, self.rect = self._transform.get_rotated_surface(self.sprite.image_unmodified)
+        self.image = self.sprite.image
+
+        print(f"In GameObject: {id(self.image)}")
 
 
 
