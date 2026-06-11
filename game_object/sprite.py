@@ -12,7 +12,7 @@ class Sprite():
         self.width = width
         self.height = height
 
-        self._image = pygame.Surface((width, height))
+        self.image = pygame.Surface((width, height))
         self._image_unmodified = pygame.Surface((width, height))
 
         self.animations: dict[str, dict[int, pygame.Surface]] = {}
@@ -26,22 +26,13 @@ class Sprite():
 
     def fill_color(self, color:tuple[int, int, int]) -> None:
         """Fills the image with the given color."""
-        self._image.fill(color)
-        self._image_unmodified.fill(color)
-
-
-    @property
-    def image(self) -> pygame.Surface:
-        return self._image
-    
-
-    @image.setter
-    def image(self, image:pygame.Surface) -> None:
-        self._image = image
+        self.image.fill(color)
+        self.image_unmodified.fill(color)
     
 
     def set_sprite(self, animation_name: str, sprite_index: int) -> None:
-        self.image = self.animations[animation_name][sprite_index]
+        self._image_unmodified = self.animations[animation_name][sprite_index]
+        self.image = pygame.transform.scale(self.animations[animation_name][sprite_index], (self.width, self.height))
 
 
     def add_animation(self, name: str, src: str, sprite_rows: int, sprite_columns: int) -> None:
@@ -71,8 +62,8 @@ class Sprite():
         while column != sprite_columns:
             
             #prevents making a new rect every frame
-            sprite_rect.width = row*sprite_width
-            sprite_rect.height = column*sprite_height
+            sprite_rect.x = row*sprite_width
+            sprite_rect.y = column*sprite_height
 
             #section of image for new sprite
             new_sprite = spritesheet.subsurface(sprite_rect)

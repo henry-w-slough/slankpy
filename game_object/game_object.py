@@ -58,7 +58,7 @@ class GameObject(pygame.sprite.Sprite):
     @x.setter
     def x(self, x: float) -> None:
         self._transform.x = x
-        self.rect.x = round(x)
+        self.rect.x = self._transform.x
     
     
     @property
@@ -68,8 +68,8 @@ class GameObject(pygame.sprite.Sprite):
 
     @y.setter
     def y(self, y: float) -> None:
-        self._transform.y = y
-        self.rect.y = round(y)        
+        self._transform.y = y 
+        self.rect.y = self._transform.y
     
 
     @property
@@ -79,8 +79,17 @@ class GameObject(pygame.sprite.Sprite):
 
     @width.setter
     def width(self, width: float) -> None:
-        self._transform.width = width 
-        self.image = pygame.transform.scale(self.image, (width, self.height))
+
+        self._transform.width = width
+        self._sprite.width = width
+
+        self.image = pygame.transform.scale(self.image, (self._transform.draw_width, self._transform.draw_height))
+        self.rect = self.image.get_rect()
+
+        self.rect.x = self._transform.draw_x
+        self.rect.y = self._transform.draw_y
+
+        self.rect.center = (self._transform.draw_x - (self._transform.draw_width/2), self._transform.draw_y - (self._transform.draw_height/2))
     
     
     @property
@@ -90,8 +99,15 @@ class GameObject(pygame.sprite.Sprite):
 
     @height.setter
     def height(self, height: float) -> None:
+
         self._transform.height = height 
-        self.image = pygame.transform.scale(self.image, (self.width, height))
+        self._sprite.height = height
+
+        self.image = pygame.transform.scale(self.image, (self._transform.draw_width, self._transform.draw_height))
+        self.rect = self.image.get_rect()
+
+        self.rect.x = self._transform.draw_x
+        self.rect.y = self._transform.draw_y
 
 
     @property
@@ -102,8 +118,10 @@ class GameObject(pygame.sprite.Sprite):
     @rotation.setter
     def rotation(self, rotation: float) -> None:
         self._transform.rotation = rotation
-        self._sprite.image, self.rect = self._transform.get_rotated_surface(self._sprite.image_unmodified)
+        #note that this passes the rotated surface along to sprite
+        self._sprite.image, self.rect = self._transform.get_rotated_surface(self._sprite.image_unmodified, self.rect)
         self.image = self._sprite.image
+        
 
 
 
