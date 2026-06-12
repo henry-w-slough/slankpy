@@ -8,7 +8,7 @@ class Screen:
 
     pygame.init()
 
-    def __init__(self, width: int, height: int, fps: float, *args, **kwargs) -> None:
+    def __init__(self, width: int, height: int, target_fps: float = 60, *args, **kwargs) -> None:
         """Where all objects and layers are updated and drawn. Has full customization of the window along with directly screen-related settings.
 
         Note:
@@ -21,17 +21,41 @@ class Screen:
         #time-relations
         self._clock = pygame.time.Clock()
         self._delta_time: float = 0.0
-        self.fps: float = fps
+        self.target_fps: float = target_fps
 
         #screen layering
         self.background_color: tuple[int, int, int] = (0, 0, 0)
         self._layers: dict[str, pygame.sprite.Group[GameObject]] = {}
+
+        #screen customs
+        self._caption = "Slankpy Game"
+        pygame.display.set_caption(self._caption)
 
 
     @property 
     def screen(self) -> pygame.Surface:
         """The display surface that is drawn onto in each update frame."""
         return self._screen
+    
+
+    @property
+    def caption(self) -> str:
+        return self._caption
+    
+
+    @caption.setter
+    def caption(self, caption: str) -> None:
+        self._caption = caption
+        pygame.display.set_caption(caption)
+
+
+    @property
+    def fps(self) -> float:
+        """The current frames per second of the game. 
+        
+        This does not neccessarily match the target fps 
+        of the Screen."""
+        return self._clock.get_fps()
 
 
     @property
@@ -102,7 +126,7 @@ class Screen:
 
         self._screen.fill(self.background_color)
 
-        #pygame.draw.rect(self.screen, (200, 200, 200), list(self.layers["player"])[0].rect)
+        pygame.draw.rect(self.screen, (255, 0, 0), list(self.layers["player"])[0])
 
         for layer in self._layers.values():
             layer.update()
