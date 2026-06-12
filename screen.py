@@ -1,5 +1,9 @@
 import pygame
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .game_object import GameObject
+
 class Screen:
 
     pygame.init()
@@ -21,7 +25,7 @@ class Screen:
 
         #screen layering
         self.background_color: tuple[int, int, int] = (0, 0, 0)
-        self._layers: dict[str, pygame.sprite.Group] = {}
+        self._layers: dict[str, pygame.sprite.Group[GameObject]] = {}
 
 
     @property 
@@ -97,6 +101,8 @@ class Screen:
         """
 
         self._screen.fill(self.background_color)
+
+        #pygame.draw.rect(self.screen, (200, 200, 200), list(self.layers["player"])[0].rect)
 
         for layer in self._layers.values():
             layer.update()
