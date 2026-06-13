@@ -126,8 +126,6 @@ class Screen:
 
         self._screen.fill(self.background_color)
 
-        pygame.draw.rect(self.screen, (255, 0, 0), list(self.layers["player"])[0])
-
         for layer in self._layers.values():
             layer.update()
             layer.draw(self._screen)
