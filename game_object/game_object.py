@@ -27,9 +27,7 @@ class GameObject(pygame.sprite.Sprite):
     def _update_image_rect(self) -> None:
         """Refreshes the image and rect based on this frame's calculations."""
         self.image = self._sprite.image
-        self.rect = self.image.get_rect()
-        self.rect.x = round(self._transform.x)
-        self.rect.y = round(self._transform.y)
+        self.rect = self.image.get_rect(center=self.rect.center)
 
 
     @property
@@ -86,7 +84,7 @@ class GameObject(pygame.sprite.Sprite):
     @rotation.setter
     def rotation(self, rotation: float) -> None:
         self._transform.rotation = rotation
-        self._sprite.set_rotation(rotation)
+        self._sprite.rotation = rotation
         self._update_image_rect()
 
 

@@ -29,8 +29,8 @@ class Sprite():
         #this if logic is only here for performance so a rotozoom call doesn't always fire
         if self._rotation != 0:
             #use 1.0 scale because scale is applied after for custom width and height
-            self._image = pygame.transform.rotozoom(self._image_unmodified, self._rotation, 1.0)
-            self._image = pygame.transform.scale(self._image, (self._width, self._height))
+            self._image = pygame.transform.scale(self._image_unmodified, (self._width, self._height))  
+            self._image = pygame.transform.rotozoom(self._image, self._rotation, 1.0)
         else:
             self._image = pygame.transform.scale(self._image_unmodified, (self._width, self._height))
 
@@ -54,13 +54,19 @@ class Sprite():
     @height.setter
     def height(self, height: float) -> None:
         self._height = height
-        self._update_image()
+        self._update_image()    
 
 
-    def set_rotation(self, rotation: float) -> None:
+    @property
+    def rotation(self) -> float:
+        return self._rotation
+    
+
+    @rotation.setter
+    def rotation(self, rotation: float) -> None:
         self._rotation = rotation
         self._update_image()
-
+    
 
     def set_sprite(self, animation_name: str, sprite_index: int) -> None:
         """Sets the image of the Sprite to the given animation and sprite index."""
