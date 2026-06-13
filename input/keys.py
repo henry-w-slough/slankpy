@@ -1,5 +1,6 @@
 import pygame
     
+    
 W = pygame.K_w
 A = pygame.K_a
 S = pygame.K_s
