@@ -28,6 +28,7 @@ class GameObject(pygame.sprite.Sprite):
         """Refreshes the image and rect based on this frame's calculations."""
         self.image = self._sprite.image
         self.rect = self.image.get_rect(center=self.rect.center)
+        
 
 
     @property

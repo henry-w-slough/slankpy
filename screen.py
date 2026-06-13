@@ -134,7 +134,7 @@ class Screen:
 
         pygame.display.flip()
 
-        self._delta_time = self._clock.tick_busy_loop(self.fps) / 1000.0
+        self._delta_time = self._clock.tick_busy_loop(self.target_fps) / 1000.0
     
     
 
