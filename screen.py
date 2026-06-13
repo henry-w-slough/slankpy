@@ -25,7 +25,7 @@ class Screen:
 
         #screen layering
         self.background_color: tuple[int, int, int] = (0, 0, 0)
-        self._layers: dict[str, pygame.sprite.Group[GameObject]] = {}
+        self._layers: dict[str, pygame.sprite.Group] = {}
 
         #screen customs
         self._caption = "Slankpy Game"
