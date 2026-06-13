@@ -31,6 +31,8 @@ class Screen:
         self._caption = "Slankpy Game"
         pygame.display.set_caption(self._caption)
 
+        self._elapsed_ticks = 0
+
 
     @property 
     def screen(self) -> pygame.Surface:
@@ -56,6 +58,14 @@ class Screen:
         This does not neccessarily match the target fps 
         of the Screen."""
         return self._clock.get_fps()
+
+
+    @property
+    def elapsed_ticks(self) -> int:
+        """The total independent elapsed time of the game in ticks.
+        
+        One tick is added every frame of Screen.update()."""
+        return self._elapsed_ticks  
 
 
     @property
@@ -126,14 +136,14 @@ class Screen:
 
         self._screen.fill(self.background_color)
 
-        pygame.draw.rect(self.screen, (255, 0, 0), list(self.layers["player"])[0].rect)
-
         for layer in self._layers.values():
             layer.update()
             layer.draw(self._screen)
 
         pygame.display.flip()
 
+        #updating time
+        self._elapsed_ticks += 1
         self._delta_time = self._clock.tick_busy_loop(self.target_fps) / 1000.0
     
     
