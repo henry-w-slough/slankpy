@@ -8,12 +8,21 @@ class GameObject(pygame.sprite.Sprite):
 
 
     def __init__(self, width: int, height: int, *groups: pygame.sprite.Group) -> None:
-        """The base class for all objects in a game that need to be controlled and rendered on a Screen.
+        """The base class for all objects within a game that need to be controlled or displayed.
         
-        Position:
-            Positions are float-based values for accurate calculations, but they are
-            rounded during rendering. This means that though the values are accurate, 
-            the on-screen result of the GameObject position may not be truly where it is.
+        **Documentation:**
+
+        * All positional, rotational, and scale-based values are stored as floats for precise calculation, but are
+        rounded using round() for any rendering done to the Screen.
+
+        ***Position***:
+            * Value correlating to the GameObject's position on the Screen (x, y).
+            Should be accessed through the GameObject's separate x and y properties.
+
+        ***Rotation***:
+            * A single float representing the degree angle at which the GameObject is rotated.
+            Note that in order to keep a consistent image size, the size of the GameObject pulsates
+            at the speed of rotation and does not rotate itself.
         """
         super().__init__(*groups)
 
@@ -25,7 +34,7 @@ class GameObject(pygame.sprite.Sprite):
 
 
     def _update_image_rect(self) -> None:
-        """Refreshes the image and rect based on this frame's calculations."""
+        """Refreshes the image and rect to match eachother."""
         self.image = self._sprite.image
         self.rect = self.image.get_rect(center=self.rect.center)
         
@@ -93,9 +102,9 @@ class GameObject(pygame.sprite.Sprite):
         """Adds a new animation to the GameObject's sprite. Sprites are added with a spritesheet from the given source image. 
         
         Note:
-            The width and height of the sprites
-            are determined based on the given number of sprite rows and columns, meaning uneven-sized sprites can mean
-            the image will not look as it's meant to."""
+            The width and height of the sprites are determined based on the given 
+            number of sprite rows and columns, meaning uneven-sized sprites can 
+            mean the image will not look as it's meant to."""
         self._sprite.add_animation(animation_name, src, sprite_rows, sprite_columns)
 
 
