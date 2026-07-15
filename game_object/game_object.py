@@ -10,7 +10,7 @@ class GameObject(pygame.sprite.Sprite):
     def __init__(self, width: int, height: int, *groups: pygame.sprite.Group) -> None:
         """The base class for all objects within a game that need to be controlled or displayed.
         
-        **Documentation:**
+        **Notes:**
 
         * All positional, rotational, and scale-based values are stored as floats for precise calculation, but are
         rounded using round() for any rendering done to the Screen.
@@ -21,8 +21,12 @@ class GameObject(pygame.sprite.Sprite):
 
         ***Rotation***:
             * A single float representing the degree angle at which the GameObject is rotated.
-            Note that in order to keep a consistent image size, the size of the GameObject pulsates
-            at the speed of rotation and does not rotate itself.
+            Note that in order to keep a consistent image size, the rect size of the GameObject pulsates
+            at the speed of rotation and does not rotate itself, meaning the hitbox varies during rotation.
+
+        **Scale**:
+            * Scale is changed, similar to position, with seperate width and height properties.
+            When scale is changed, it is changed relative to the x and y position, not from the center.
         """
         super().__init__(*groups)
 
