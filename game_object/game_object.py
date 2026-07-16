@@ -40,9 +40,8 @@ class GameObject(pygame.sprite.Sprite):
     def _update_image_rect(self) -> None:
         """Refreshes the image and rect to match eachother."""
         self.image = self._sprite.image
-        self.rect = self.image.get_rect(center=self.rect.center)
+        self.rect = self.image.get_rect()
         
-
 
     @property
     def x(self) -> float:

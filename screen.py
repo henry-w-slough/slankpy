@@ -1,8 +1,6 @@
 import pygame
+from .debug import debug
 
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from .game_object import GameObject
 
 class Screen:
 
@@ -32,6 +30,8 @@ class Screen:
         pygame.display.set_caption(self._caption)
 
         self._elapsed_ticks = 0
+
+        debug._init()
 
 
     @property 
@@ -136,9 +136,13 @@ class Screen:
 
         self._screen.fill(self.background_color)
 
+
         for layer in self._layers.values():
             layer.update()
             layer.draw(self._screen)
+
+        debug._draw(self.screen)
+
 
         pygame.display.flip()
 
