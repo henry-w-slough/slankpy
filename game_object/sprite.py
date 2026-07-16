@@ -15,8 +15,13 @@ class Sprite():
 
         self.animations: dict[str, dict[int, pygame.Surface]] = {}
 
+        self._animation = "" 
+
         #this should never be called for reference of rotation, only Transform should
         self._rotation: float = 0.0
+
+        #the cache for rotation images, saves performance by only truly rotating ~180 times per each sprite
+        self._rotation_cache: dict[str, dict[int, dict[int, pygame.Surface]]] = {}
 
 
     @property
@@ -66,12 +71,17 @@ class Sprite():
     def rotation(self, rotation: float) -> None:
         self._rotation = rotation
         self._update_image()
+
+
+    def _get_rotation_cache(self) -> pygame.Surface:
+        return self._rotation_cache[self.animation]
     
 
     def set_sprite(self, animation_name: str, sprite_index: int) -> None:
         """Sets the image of the Sprite to the given animation and sprite index."""
         self._image_unmodified = self.animations[animation_name][sprite_index]
-        self._update_image()
+        self._update_image() 
+        self.animation = animation_name
 
 
     def add_animation(self, animation_name: str, src: str, sprite_rows: int, sprite_columns: int) -> None:
