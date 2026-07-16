@@ -100,8 +100,8 @@ class Sprite():
 
         while row != sprite_rows:
 
-            sprite_rect.x = column*sprite_width
-            sprite_rect.y = row*sprite_height
+            sprite_rect.x = round(column*sprite_width)
+            sprite_rect.y = round(row*sprite_height)
 
             #cutting out new sprite
             new_sprite = spritesheet.subsurface(sprite_rect)
