@@ -1,6 +1,5 @@
 import pygame
 
-from .transform import Transform
 from .sprite import Sprite
 
 
@@ -31,11 +30,18 @@ class GameObject(pygame.sprite.Sprite):
         """
         super().__init__(*groups)
 
-        self._transform = Transform(width, height)
         self._sprite = Sprite(width, height)
 
         self.image: pygame.Surface = self._sprite.image
         self.rect: pygame.Rect = self.image.get_rect()
+
+        self._x: float = 0.0
+        self._y: float = 0.0
+
+        self._width: float = width
+        self._height:float = height
+
+        self._rotation: float = 0.0
 
 
     def _update_image_rect(self) -> None:
@@ -46,58 +52,58 @@ class GameObject(pygame.sprite.Sprite):
 
     @property
     def x(self) -> float:
-        return self._transform.x
+        return self._x
     
 
     @x.setter
     def x(self, x: float) -> None:
-        self._transform.x = x
+        self._x = x
         self.rect.centerx = round(x)
     
 
     @property
     def y(self) -> float:
-        return self._transform.y
+        return self._y
     
 
     @y.setter
     def y(self, y: float) -> None:
-        self._transform.y = y
+        self._y = y
         self.rect.centery = round(y)
     
 
     @property
     def width(self) -> float:
-        return self._transform.width
+        return self._width
     
 
     @width.setter
     def width(self, width: float) -> None:
-        self._transform.width = width
+        self._width = width
         self._sprite.width = width
         self._update_image_rect()
     
 
     @property
     def height(self) -> float:
-        return self._transform.height
+        return self._height
     
 
     @height.setter
     def height(self, height: float) -> None:
-        self._transform.height = height
+        self._height = height
         self._sprite.height = height
         self._update_image_rect()
 
 
     @property
     def rotation(self) -> float:
-        return self._transform.rotation
+        return self._rotation
     
 
     @rotation.setter
     def rotation(self, rotation: float) -> None:
-        self._transform.rotation = rotation
+        self._rotation = rotation
         self._sprite.rotation = rotation
         self._update_image_rect()
 
