@@ -6,7 +6,7 @@ class Screen:
 
     pygame.init()
 
-    def __init__(self, width: int, height: int, target_fps: float = 60, *args, **kwargs) -> None:
+    def __init__(self, width: int, height: int, vsync : bool = True, target_fps: float = 60, *args, **kwargs) -> None:
         """Where all objects and layers are updated and drawn. Has full customization of the window along with directly screen-related settings.
 
         Note:
@@ -14,12 +14,17 @@ class Screen:
         """
 
         #creating the window instance
-        self._screen: pygame.Surface = pygame.display.set_mode((width, height), *args, **kwargs)
+        self._screen: pygame.Surface = pygame.display.set_mode((width, height), vsync=vsync, *args, **kwargs)
 
         #time-relations
         self._clock = pygame.time.Clock()
         self._delta_time: float = 0.0
-        self.target_fps: float = target_fps
+
+        if vsync == True:
+            #getting the native fps to match vsync
+            self.target_fps = pygame.display.get_desktop_refresh_rates()[0] if hasattr(pygame.display, 'get_desktop_refresh_rates') else 60
+        else:
+            self.target_fps = target_fps
 
         #screen layering
         self.background_color: tuple[int, int, int] = (0, 0, 0)
@@ -136,12 +141,13 @@ class Screen:
 
         self._screen.fill(self.background_color)
 
+        debug._draw_bottom(self.screen)
 
         for layer in self._layers.values():
             layer.update()
             layer.draw(self._screen)
 
-        debug._draw(self.screen)
+        debug._draw_top(self.screen)
 
 
         pygame.display.flip()

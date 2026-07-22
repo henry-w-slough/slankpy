@@ -19,13 +19,14 @@ class GameObject(pygame.sprite.Sprite):
             * The position of the GameObject within the world. Represented as x and y, and are relative to the GameObject's center.
             Should be accessed through the GameObject's separate x and y properties.
 
-        ***Rotation***:ot rotate itself, meaning the hitbox varies during rotation.
+        ***Rotation***:
 
             * A single float representing the degree angle at which the GameObject is rotated.
             Note that in order to keep a consistent image size, the rect size of the GameObject pulsates
-            at the speed of rotation and does n
+            at the speed of rotation.
+
         **Scale**:
-            * Scale is changed, similar to position, with seperate width and height properties.
+            * The size of the GameObject in width and height properties.
             When scale is changed, it is changed relative to the x and y position, not from the center.
         """
         super().__init__(*groups)
