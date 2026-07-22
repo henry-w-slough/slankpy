@@ -20,10 +20,6 @@ class Sprite():
         #this should never be called for reference of rotation, only Transform should
         self._rotation: float = 0.0
 
-        #the cache for rotation images, saves performance by only truly rotating ~180 times per each sprite
-        self._rotation_cache: dict[str, dict[int, dict[int, pygame.Surface]]] = {}
-
-
     @property
     def image(self) -> pygame.Surface:
         return self._image
@@ -71,10 +67,6 @@ class Sprite():
     def rotation(self, rotation: float) -> None:
         self._rotation = rotation
         self._update_image()
-
-
-    def _get_rotation_cache(self) -> pygame.Surface:
-        return self._rotation_cache[self.animation]
     
 
     def set_sprite(self, animation_name: str, sprite_index: int) -> None:

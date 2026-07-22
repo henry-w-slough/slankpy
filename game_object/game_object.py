@@ -32,7 +32,7 @@ class GameObject(pygame.sprite.Sprite):
         self._sprite = Sprite(width, height)
 
         self.image: pygame.Surface = self._sprite.image
-        self.rect: pygame.Rect = self.image.get_rect()
+        self.rect: pygame.Rect = self.image.get_rect(x=round(self.width/2), y=round(self.width))
 
         self._x: float = 0.0
         self._y: float = 0.0
@@ -120,6 +120,6 @@ class GameObject(pygame.sprite.Sprite):
     def set_sprite(self, animation_name: str, sprite_index: int) -> None:
         """Sets the image of the GameObject to the given animation sprite."""
         self._sprite.set_sprite(animation_name, sprite_index)
-        self.image = self._sprite.image
+        self._update_image_rect()
 
 
