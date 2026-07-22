@@ -1,3 +1,6 @@
+"""Keyboard controls mapped to simple variables.
+
+Used with slankpy.keyboard module for input detection."""
 import pygame
     
     
@@ -22,6 +25,13 @@ CONTROL = pygame.K_LCTRL
 
 ENTER = pygame.K_RETURN
 
-MOUSE_LEFT_BUTTON = 0
-MOUSE_RIGHT_BUTTON = 1
-MOUSE_MIDDLE_BUTTOn = 2
+ONE = pygame.K_1
+TWO = pygame.K_2
+THREE = pygame.K_3
+FOUR = pygame.K_4
+FIVE = pygame.K_5
+SIX = pygame.K_6
+SEVEN = pygame.K_7
+EIGHT = pygame.K_8
+NINE = pygame.K_9
+ZERO = pygame.K_0
