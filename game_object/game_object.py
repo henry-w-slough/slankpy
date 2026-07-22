@@ -19,7 +19,6 @@ class GameObject(pygame.sprite.Sprite):
             Should be accessed through the GameObject's separate x and y properties.
 
         ***Rotation***:
-
             * A single float representing the degree angle at which the GameObject is rotated.
             Note that in order to keep a consistent image size, the rect size of the GameObject pulsates
             at the speed of rotation.
