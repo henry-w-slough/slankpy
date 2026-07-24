@@ -14,11 +14,11 @@ class Sprite():
         self._image_unmodified = pygame.Surface((width, height))
 
         self.animations: dict[str, dict[int, pygame.Surface]] = {}
+        self._animation = ""
 
-        self._animation = "" 
-
-        #this should never be called for reference of rotation, only Transform should
         self._rotation: float = 0.0
+        self._rotation_cache: dict[str, dict[float, pygame.Surface]] = {}
+
 
     @property
     def image(self) -> pygame.Surface:
@@ -27,13 +27,12 @@ class Sprite():
 
     def _update_image(self) -> None:
         """Refreshes the image by setting it to the current unmodified sprite with the current transformations."""
-        #this if logic is only here for performance so a rotozoom call doesn't always fire
-        if self._rotation != 0:
+
+        if self._rotation_cache[self._animation][self._rotation]:
+            self._image = self._rotation_cache[self._animation][self._rotation]
             #use 1.0 scale because scale is applied after for custom width and height
             self._image = pygame.transform.scale(self._image_unmodified, (self._width, self._height))  
             self._image = pygame.transform.rotozoom(self._image, self._rotation, 1.0)
-        else:
-            self._image = pygame.transform.scale(self._image_unmodified, (self._width, self._height))
 
 
     @property
@@ -67,13 +66,20 @@ class Sprite():
     def rotation(self, rotation: float) -> None:
         self._rotation = rotation
         self._update_image()
-    
+        self._rotation_cache[self._animation][rotation] = self.image
 
-    def set_sprite(self, animation_name: str, sprite_index: int) -> None:
-        """Sets the image of the Sprite to the given animation and sprite index."""
-        self._image_unmodified = self.animations[animation_name][sprite_index]
+
+    @property
+    def animation(self) -> str:
+        """The currently applied animation of the Sprite."""
+        return self._animation
+
+
+    def set_animation(self, animation_name: str, frame_index: int) -> None:
+        """Sets the animation and frame which the sprite is currently using."""
+        self._image_unmodified = self.animations[animation_name][frame_index]
         self._update_image() 
-        self.animation = animation_name
+        self._animation = animation_name
 
 
     def add_animation(self, animation_name: str, src: str, sprite_rows: int, sprite_columns: int) -> None:
@@ -87,6 +93,7 @@ class Sprite():
 
         #empty animation dict
         self.animations[animation_name] = {}
+        self._rotation_cache[animation_name] = {}
 
         sprite_width = spritesheet.get_width() / sprite_columns
         sprite_height = spritesheet.get_height() / sprite_rows

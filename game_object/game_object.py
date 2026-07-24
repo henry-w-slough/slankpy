@@ -32,7 +32,7 @@ class GameObject(pygame.sprite.Sprite):
         self._sprite = Sprite(width, height)
 
         self.image: pygame.Surface = self._sprite.image
-        self.rect: pygame.Rect = self.image.get_rect(x=round(self.width/2), y=round(self.width))
+        self.rect: pygame.Rect = self.image.get_rect(x=round(width/2), y=round(height/2))
 
         self._x: float = 0.0
         self._y: float = 0.0
@@ -102,6 +102,8 @@ class GameObject(pygame.sprite.Sprite):
 
     @rotation.setter
     def rotation(self, rotation: float) -> None:
+        if rotation > 360:
+            rotation = 0.0
         self._rotation = rotation
         self._sprite.rotation = rotation
         self._update_image_rect()
@@ -112,14 +114,14 @@ class GameObject(pygame.sprite.Sprite):
         
         Note:
             The width and height of the sprites are determined based on the given 
-            number of sprite rows and columns, meaning uneven-sized sprites can 
-            mean the image will not look as it's meant to."""
+            number of sprite rows and columns, meaning differently sized sprites means
+            the image will not look as it's meant to."""
         self._sprite.add_animation(animation_name, src, sprite_rows, sprite_columns)
 
 
-    def set_sprite(self, animation_name: str, sprite_index: int) -> None:
-        """Sets the image of the GameObject to the given animation sprite."""
-        self._sprite.set_sprite(animation_name, sprite_index)
+    def set_animation(self, animation_name: str, sprite_index: int) -> None:
+        """Sets the animation and frame which the sprite is currently using."""
+        self._sprite.set_animation(animation_name, sprite_index)
         self._update_image_rect()
 
 
