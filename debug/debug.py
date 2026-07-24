@@ -34,6 +34,8 @@ def toggle_enabled() -> None:
     """Toggles debugging rendering and functionality."""
     global debug_enabled
     debug_enabled = not debug_enabled
+    _debug_surface_bottom.fill((0, 0, 0, 0))
+    _debug_surface_top.fill((0, 0, 0, 0))
 
 
 def draw_bottom(surface: pygame.Surface) -> None:

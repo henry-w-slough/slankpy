@@ -109,14 +109,19 @@ class GameObject(pygame.sprite.Sprite):
         self._update_image_rect()
 
 
-    def add_animation(self, animation_name: str, src: str, sprite_rows: int, sprite_columns: int) -> None:
+    @property
+    def animations(self) -> dict[str, dict[int, pygame.Surface]]:
+        return self._sprite.animations
+
+
+    def add_animation(self, animation_name: str, src: str, frame_rows: int, frame_columns: int) -> None:
         """Adds a new animation to the GameObject's sprite. Sprites are added with a spritesheet from the given source image. 
         
         Note:
             The width and height of the sprites are determined based on the given 
-            number of sprite rows and columns, meaning differently sized sprites means
+            number of frame rows and columns, meaning differently sized sprites means
             the image will not look as it's meant to."""
-        self._sprite.add_animation(animation_name, src, sprite_rows, sprite_columns)
+        self._sprite.add_animation(animation_name, src, frame_rows, frame_columns)
 
 
     def set_animation(self, animation_name: str, sprite_index: int) -> None:
