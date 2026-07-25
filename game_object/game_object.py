@@ -34,11 +34,11 @@ class GameObject(pygame.sprite.Sprite):
         self.image: pygame.Surface = self._sprite.image
         self.rect: pygame.Rect = self.image.get_rect(x=round(width/2), y=round(height/2))
 
-        self._x: float = 0.0
-        self._y: float = 0.0
+        self._x: float = width / 2
+        self._y: float = height / 2
 
         self._width: float = width
-        self._height:float = height
+        self._height: float = height
 
         self._rotation: float = 0.0
 
@@ -69,7 +69,7 @@ class GameObject(pygame.sprite.Sprite):
     def y(self, y: float) -> None:
         self._y = y
         self.rect.centery = round(y)
-    
+
 
     @property
     def width(self) -> float:

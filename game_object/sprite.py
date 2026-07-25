@@ -3,7 +3,6 @@ import pygame
 
 class Sprite():
 
-
     def __init__(self, width: float, height: float) -> None:
         """Handles all animation and sprite-related operations to a GameObject."""
         
@@ -17,8 +16,6 @@ class Sprite():
         self._animation = ""
 
         self._rotation: float = 0.0
-        self._rotation_cache: dict[str, dict[float, pygame.Surface]] = {}
-
 
     @property
     def image(self) -> pygame.Surface:
@@ -97,7 +94,6 @@ class Sprite():
 
         #empty animation dict
         self._animations[animation_name] = {}
-        self._rotation_cache[animation_name] = {}
 
         sprite_width = spritesheet.get_width() / sprite_columns
         sprite_height = spritesheet.get_height() / sprite_rows
