@@ -1,5 +1,7 @@
 import pygame
-from .debug import debug
+from ..screen import debug
+from .camera import Camera
+from ..game_object import GameObject
 
 
 class Screen:
@@ -13,12 +15,12 @@ class Screen:
             The update function of the Screen must be called in order to have layers updated and drawn properly.
         """
 
-        #creating the window instance
         self._screen: pygame.Surface = pygame.display.set_mode((width, height), vsync=vsync, *args, **kwargs)
 
         #time-relations
         self._clock = pygame.time.Clock()
         self._delta_time: float = 0.0
+        self._elapsed_ticks = 0
 
         if vsync == True:
             #getting the native fps to match vsync
@@ -28,13 +30,13 @@ class Screen:
 
         #screen layering
         self.background_color: tuple[int, int, int] = (0, 0, 0)
-        self._layers: dict[str, pygame.sprite.Group] = {}
+        self._layers: dict[str, pygame.sprite.Group[GameObject]] = {}
 
         #screen customs
         self._caption = "Slankpy Game"
         pygame.display.set_caption(self._caption)
 
-        self._elapsed_ticks = 0
+        self.camera: Camera | None = None
 
         debug.init()
 
@@ -43,8 +45,8 @@ class Screen:
     def screen(self) -> pygame.Surface:
         """The display surface that is drawn onto in each update frame."""
         return self._screen
-    
 
+    
     @property
     def caption(self) -> str:
         return self._caption
@@ -83,19 +85,19 @@ class Screen:
 
     @property
     def height(self) -> int:
-        return self._screen.get_width()
+        return self._screen.get_height()
     
 
     @property
     def width(self) -> int:
-        return self._screen.get_height()
+        return self._screen.get_width()
 
 
     @property
     def center(self) -> tuple[float, float]:
         """The position of the center of the screen."""
         return (self._screen.get_width() / 2, self._screen.get_height() / 2)
-    
+
 
     @property
     def layers(self) -> dict[str, pygame.sprite.Group]:
@@ -142,10 +144,21 @@ class Screen:
         self._screen.fill(self.background_color)
 
         debug.draw_bottom(self.screen)
+        
 
         for layer in self._layers.values():
+
             layer.update()
-            layer.draw(self._screen)
+
+            #no camera = basic drawing
+            if self.camera == None or self.camera.target == None:
+                layer.draw(self._screen)
+                continue
+
+            #with a camera = perspective camera-based drawing
+            for object in layer:
+                self.camera.apply_transformation(object)
+                self._screen.blit(pygame.transform.scale(object.image, (object.view_width, object.view_height)), (object.view_x, object.view_y))
 
         debug.draw_top(self.screen)
 

@@ -42,6 +42,13 @@ class GameObject(pygame.sprite.Sprite):
 
         self._rotation: float = 0.0
 
+        #integer to remove pygame trunication faults
+        self.view_x: int = 0
+        self.view_y: int = 0
+
+        self.view_width: int = 0
+        self.view_height: int = 0
+
 
     def _update_image_rect(self) -> None:
         """Refreshes the image and rect to match eachother."""
