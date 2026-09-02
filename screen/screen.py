@@ -1,6 +1,5 @@
 import pygame
 from ..screen import debug
-from .camera import Camera
 from ..game_object import GameObject
 
 
@@ -35,8 +34,6 @@ class Screen:
         #screen customs
         self._caption = "Slankpy Game"
         pygame.display.set_caption(self._caption)
-
-        self.camera: Camera | None = None
 
         debug.init()
 
@@ -140,29 +137,16 @@ class Screen:
 
         Should be called every frame of a loop in order for a game to be functional.
         """
-
         self._screen.fill(self.background_color)
 
-        debug.draw_bottom(self.screen)
-        
+        debug.draw_bottom(self._screen)
 
-        for layer in self._layers.values():
-
+        for layer in self.layers.values():  
             layer.update()
+            layer.draw(self._screen)
 
-            #no camera = basic drawing
-            if self.camera == None or self.camera.target == None:
-                layer.draw(self._screen)
-                continue
-
-            #with a camera = perspective camera-based drawing
-            for object in layer:
-                self.camera.apply_transformation(object)
-                self._screen.blit(pygame.transform.scale(object.image, (object.view_width, object.view_height)), (object.view_x, object.view_y))
-
-        debug.draw_top(self.screen)
-
-
+        debug.draw_top(self._screen)
+        
         pygame.display.flip()
 
         #updating time

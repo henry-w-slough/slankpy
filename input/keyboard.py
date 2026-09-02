@@ -12,30 +12,29 @@ def get_pressed_keys() -> pygame.key.ScancodeWrapper:
     return pygame.key.get_pressed()
 
 
-def key_pressed(key: int) -> bool:
-    """Checks if the key is pressed this frame."""
-    return pygame.key.get_pressed()[key] 
+def keys_pressed(*keys: int) -> bool:
+    """Checks if the given keys are pressed this frame."""
+    for key in keys:
+        if pygame.key.get_pressed()[key]:
+            return True
+    return False
 
 
-def key_just_pressed(key: int) -> bool:
-    """Checks if the key is pressed this frame without consecutive active frames."""
-    return pygame.key.get_just_pressed()[key]
+def keys_just_pressed(*keys: int) -> bool:
+    """Checks if any of the given keys are pressed this frame without consecutive active frames."""
+    for key in keys:
+        if pygame.key.get_just_pressed()[key]:
+            return True
+    return False
 
 
-def get_input_axis(keys: tuple[int, int]) -> float:
-    """The input axis for the given keys.
-
-    An input axis is a representation of two inputs' states with a float value of -1, 1, or 0.
-
-    -1 represents the first value being active, 1 is the second value being active, and 0 is
-    either both active at the same time or neither active.
+def get_input_vector(input_x: tuple[int, int], input_y: tuple[int, int]) -> pygame.math.Vector2:
     """
-    axis = 0.0
+    """
+    axis = pygame.math.Vector2()
 
-    if key_pressed(keys[0]):
-        axis -= 1.0
-    if key_pressed(keys[1]):
-        axis += 1.0
+    for key in input_x:
+        if keys_pressed()
 
     return axis
             

@@ -74,19 +74,19 @@ def draw_top(surface: pygame.Surface) -> None:
     _dirty_top = False
 
 
-def fill_hitbox(game_object: GameObject, color: tuple[int, int, int]) -> None:
-    """Draws the rect (hitbox) of the given GameObject filled with the given color on the bottom buffer surface."""
+def fill_rectangle(rect: pygame.Rect, color: tuple[int, int, int]) -> None:
+    """Draws the rect of the given rect filled with the given color on the bottom buffer surface."""
     global _dirty_bottom
     _dirty_bottom = True
-    pygame.draw.rect(_debug_surface_bottom, color, game_object.rect)
+    pygame.draw.rect(_debug_surface_bottom, color, rect)
 
 
-def fill_image(game_object: GameObject, color: tuple[int, int, int]) -> None:
+def fill_image(image: pygame.Surface, color: tuple[int, int, int], position: tuple[float, float]) -> None:
     """ of the same size as the given game_object with the given color on the top buffer surface."""
     global _dirty_top
 
-    mask = pygame.mask.from_surface(game_object.image)
+    mask = pygame.mask.from_surface(image)
     mask_surface = mask.to_surface(setcolor=color, unsetcolor=(0, 0, 0, 0))
 
-    _debug_surface_top.blit(mask_surface, game_object.rect.topleft)
+    _debug_surface_top.blit(mask_surface, (round(position[0]), round(position[1])))
     _dirty_top = True

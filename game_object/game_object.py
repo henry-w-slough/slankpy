@@ -32,108 +32,36 @@ class GameObject(pygame.sprite.Sprite):
         self._sprite = Sprite(width, height)
 
         self.image: pygame.Surface = self._sprite.image
-        self.rect: pygame.Rect = self.image.get_rect(x=round(width/2), y=round(height/2))
+        self.rect: pygame.Rect = self.image.get_rect()
 
-        self._x: float = width / 2
-        self._y: float = height / 2
-
-        self._width: float = width
-        self._height: float = height
-
-        self._rotation: float = 0.0
-
-        #integer to remove pygame trunication faults
-        self.view_x: int = 0
-        self.view_y: int = 0
-
-        self.view_width: int = 0
-        self.view_height: int = 0
+        self._position = pygame.math.Vector2()
 
 
-    def _update_image_rect(self) -> None:
-        """Refreshes the image and rect to match eachother."""
+    @property
+    def position(self) -> pygame.math.Vector2:
+        return self._position
+
+
+    @position.setter
+    def position(self, position: pygame.math.Vector2) -> None:
+        self._position = position
+        self.rect.x = round(position.x)
+        self.rect.y = round(position.y)
+
+
+    def add_animation(self, src: str, name: str, rows: int, columns: int) -> None:
+        """Adds a new animation to the GameObject, which can be accessed by using GameObject.set_sprite()
+        with the new animation's name.
+        """
+        self._sprite.add_animation(name, src, rows, columns)
+
+
+    def set_animation(self, name: str, frame: int) -> None:
+        """Sets the image of the GameObject to the given animation at the given frame."""
+        self._sprite.set_animation(name, frame)
         self.image = self._sprite.image
-        self.rect = self.image.get_rect(center=self.rect.center)
-        
-
-    @property
-    def x(self) -> float:
-        return self._x
-    
-
-    @x.setter
-    def x(self, x: float) -> None:
-        self._x = x
-        self.rect.centerx = round(x)
-    
-
-    @property
-    def y(self) -> float:
-        return self._y
-    
-
-    @y.setter
-    def y(self, y: float) -> None:
-        self._y = y
-        self.rect.centery = round(y)
-
-
-    @property
-    def width(self) -> float:
-        return self._width
-    
-
-    @width.setter
-    def width(self, width: float) -> None:
-        self._width = width
-        self._sprite.width = width
-        self._update_image_rect()
-    
-
-    @property
-    def height(self) -> float:
-        return self._height
-    
-
-    @height.setter
-    def height(self, height: float) -> None:
-        self._height = height
-        self._sprite.height = height
-        self._update_image_rect()
-
-
-    @property
-    def rotation(self) -> float:
-        return self._rotation
-    
-
-    @rotation.setter
-    def rotation(self, rotation: float) -> None:
-        if rotation > 360:
-            rotation = 0.0
-        self._rotation = rotation
-        self._sprite.rotation = rotation
-        self._update_image_rect()
 
 
     @property
     def animations(self) -> dict[str, dict[int, pygame.Surface]]:
         return self._sprite.animations
-
-
-    def add_animation(self, animation_name: str, src: str, frame_rows: int, frame_columns: int) -> None:
-        """Adds a new animation to the GameObject's sprite. Sprites are added with a spritesheet from the given source image. 
-        
-        Note:
-            The width and height of the sprites are determined based on the given 
-            number of frame rows and columns, meaning differently sized sprites means
-            the image will not look as it's meant to."""
-        self._sprite.add_animation(animation_name, src, frame_rows, frame_columns)
-
-
-    def set_animation(self, animation_name: str, sprite_index: int) -> None:
-        """Sets the animation and frame which the sprite is currently using."""
-        self._sprite.set_animation(animation_name, sprite_index)
-        self._update_image_rect()
-
-

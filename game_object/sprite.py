@@ -12,10 +12,11 @@ class Sprite():
         self._image = pygame.Surface((width, height))
         self._image_unmodified = pygame.Surface((width, height))
 
-        self._animations: dict[str, dict[int, pygame.Surface]] = {}
+        self.animations: dict[str, dict[int, pygame.Surface]] = {}
         self._animation = ""
 
         self._rotation: float = 0.0
+
 
     @property
     def image(self) -> pygame.Surface:
@@ -59,7 +60,7 @@ class Sprite():
         return self._rotation
     
 
-    @rotation.setter
+    @rotation.setter 
     def rotation(self, rotation: float) -> None:
         self._rotation = rotation
         self._update_image()
@@ -68,19 +69,16 @@ class Sprite():
     @property
     def animation(self) -> str:
         """The currently applied animation of the Sprite."""
+        #keeping this private to prevent overriding the sprite without properly
+        #changing the image
         return self._animation
 
 
-    @property
-    def animations(self) -> dict[str, dict[int, pygame.Surface]]:
-        return self._animations
-
-
-    def set_animation(self, animation_name: str, frame_index: int) -> None:
+    def set_animation(self, name: str, frame: int) -> None:
         """Sets the animation and frame which the sprite is currently active."""
-        self._image_unmodified = self._animations[animation_name][frame_index]
+        self._image_unmodified = self.animations[name][frame]
         self._update_image() 
-        self._animation = animation_name
+        self._animation = name
 
 
     def add_animation(self, animation_name: str, src: str, sprite_rows: int, sprite_columns: int) -> None:
@@ -93,7 +91,7 @@ class Sprite():
         spritesheet = pygame.image.load(src).convert_alpha()
 
         #empty animation dict
-        self._animations[animation_name] = {}
+        self.animations[animation_name] = {}
 
         sprite_width = spritesheet.get_width() / sprite_columns
         sprite_height = spritesheet.get_height() / sprite_rows
@@ -118,7 +116,7 @@ class Sprite():
             #new sprite is completely transparent
             if not (new_sprite.get_bounding_rect().width == 0):
                 #adding new sprite
-                self._animations[animation_name][sprite_num] = new_sprite
+                self.animations[animation_name][sprite_num] = new_sprite
                 sprite_num += 1
                 
             #iterating to next sprite
